@@ -1,0 +1,42 @@
+@import '~antd/lib/style/themes/default.less';
+
+:global{
+  .basic-layout-side-menu-header {
+    height: 64px;
+    padding: 0 12px 0 0;
+    background: #fff;
+    box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
+    position: relative;
+  }
+
+  i.basic-layout-side-menu-header-trigger {
+    font-size: 20px;
+    height: 64px;
+    cursor: pointer;
+    transition: all 0.3s, padding 0s;
+    padding: 22px 24px;
+    &:hover {
+      background: @primary-1;
+    }
+  }
+}
+
+
+@media only screen and (max-width: @screen-md) {
+  .basic-layout-side-menu-header {
+    :global(.ant-divider-vertical) {
+      vertical-align: unset;
+    }
+    .basic-layout-side-menu-header-name {
+      display: none;
+    }
+    i.basic-layout-side-menu-header-trigger {
+      padding: 22px 12px;
+    }
+    .basic-layout-side-menu-header-logo {
+      padding-left: 12px;
+      padding-right: 12px;
+      position: relative;
+    }
+  }
+}

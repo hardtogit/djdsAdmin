@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>永辉彩食鲜后台管理系统</title>
+  <link rel="icon" href="/docs/dist/favicon.png" type="image/x-icon">
+  <script src="/dist/stacktrace.min.js"></script>
+  <script src="/dist/APIConnection.min.js"></script>
+  <script>
+    var apiconn = new APIConnection();
+    window.callBackFn={};
+    apiconn.client_info.clienttype = "web";
+    apiconn.state_changed_handler = function() {
+      console.log("state: " + apiconn.from_state + " => " + apiconn.conn_state);
+      if(apiconn.conn_state == "IN_SESSION") {
+        console.log(JSON.stringify(apiconn.credential_data),'aaaaaaaaaaaaaaaaaaaaaaaaa')
+        sessionStorage.setItem("credential_data", JSON.stringify(apiconn.credential_data));
+      } else if(apiconn.conn_state == "LOGIN_SCREEN_ENABLED") {
+
+        // auto re login after page refresh
+
+        if(apiconn.login_name == "" && apiconn.credential_data == null) {
+
+          var login_name = sessionStorage.getItem("login_name");
+          var login_passwd = sessionStorage.getItem("login_passwd");
+
+          var cred = sessionStorage.getItem("credential_data");
+          var cred_obj = null;
+          if(cred !== "") cred_obj = JSON.parse(cred);
+
+          if(login_name != "" && login_name != null) {
+            apiconn.login(login_name, login_passwd);
+
+          } else if(cred_obj != null) {
+            apiconn.loginx(cred_obj);
+
+          } else {}
+        }
+      }
+    };
+  </script>
+
+</head>
+<body>
+  <div id="root"></div>
+</body>
+</html>

@@ -1,0 +1,90 @@
+@import '~antd/lib/style/themes/default.less';
+
+@pro-header-hover-bg: rgba(0, 0, 0, 0.025);
+
+:global{
+  .basic-layout-header-fixedHeader {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100%;
+    z-index: 1061;
+    transition: width 0.2s;
+  }
+
+  .basic-layout-header-right-content-menu {
+    .anticon {
+      margin-right: 8px;
+    }
+    .ant-dropdown-menu-item {
+      width: 160px;
+    }
+  }
+
+  .basic-layout-header-right-content-action {
+    cursor: pointer;
+    padding: 0 12px;
+    display: inline-block;
+    transition: all 0.3s;
+    height: 100%;
+    > i {
+      font-size: 18px;
+      vertical-align: middle;
+      color: @text-color;
+    }
+    &:hover {
+      background: @primary-1;
+    }
+    &.ant-popover-open {
+      background: @primary-1;
+    }
+  }
+
+  .basic-layout-header-right {
+    float: right;
+    height: 100%;
+    .basic-layout-header-right-content-action {
+      cursor: pointer;
+      padding: 0 12px;
+      display: inline-block;
+      transition: all 0.3s;
+      height: 100%;
+      > i {
+        font-size: 18px;
+        vertical-align: middle;
+        color: @text-color;
+      }
+      &:hover {
+        background: @pro-header-hover-bg;
+      }
+      &.ant-popover-open {
+        background: @pro-header-hover-bg;
+      }
+    }
+    .basic-layout-header-right-content-account {
+      .basic-layout-header-right-content-account-avatar {
+        margin: 20px 8px 20px 0;
+        background: #7e807e;
+        vertical-align: middle;
+      }
+    }
+  }
+
+  .basic-layout-header-dark {
+    height: 64px;
+    .basic-layout-header-right-content-action {
+      color: rgba(255, 255, 255, 0.85);
+      > i {
+        color: rgba(255, 255, 255, 0.85);
+      }
+      &:hover,
+      &.ant-popover-open {
+        background: @primary-color;
+      }
+      .ant-badge {
+        color: rgba(255, 255, 255, 0.85);
+      }
+    }
+  }
+}
+
