@@ -60,26 +60,26 @@ export class AutoCompleteComponent extends Component {
     return dataSource.map((item, index) => {
       const title = <span className="search-item" key={item.value}>{item.label}</span>;
       return (<TreeNode
-        value={item.value}
-        title={title}
-        key={index}
-      />);
+          value={item.value}
+          title={title}
+          key={index}
+              />);
     });
   }
   render() {
     const treeNode = this.renderNode();
     return (
       <TreeSelect
-        {...this.props}
-        showSearch
-        onChange={this.onChange}
-        onSearch={this.onSearch}
-        filterTreeNode={() => true}
-        dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
-        dropdownClassName={'selectAccount'}
-        value={this.state.value}
-        allowClear
-        treeDefaultExpandAll
+          {...this.props}
+          showSearch
+          onChange={this.onChange}
+          onSearch={this.onSearch}
+          filterTreeNode={() => true}
+          dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+          dropdownClassName={'selectAccount'}
+          value={this.state.value}
+          allowClear
+          treeDefaultExpandAll
       >
         {treeNode}
       </TreeSelect>

@@ -10,11 +10,11 @@ window.apiconn.response_received_handler = function(jo){
   if (jo.ustr) {
     Modal.error({title:'错误提示',content:jo.ustr});
     if(window.callBackFn[jo.obj + '_' + jo.act]&&window.callBackFn[jo.obj + '_' + jo.act].length){
-      window.callBackFn[jo.obj + '_' + jo.act].shift()(jo);
+      window.callBackFn[jo.obj + '_' + jo.act].shift()(jo,'error');
     }
   } else {
     if (window.callBackFn[jo.obj + '_' + jo.act] && window.callBackFn[jo.obj + '_' + jo.act].length) {
-      window.callBackFn[jo.obj + '_' + jo.act].shift()(jo);
+      window.callBackFn[jo.obj + '_' + jo.act].shift()(jo,'success');
     }
   }
   if(!jo.ustr&&jo.obj === 'person'&&jo.act === 'login'){
@@ -28,7 +28,7 @@ window.apiconn.response_received_handler = function(jo){
     }
   }
 };
-window.apiconn.wsUri = 'ws://www.freshfood.cn/yh_ga';
+window.apiconn.wsUri = 'ws://101.132.136.124:51718/djds';
 window.apiconn.connect();
 export const dva = {
   config: {

@@ -11,8 +11,8 @@ class Index extends Component {
         accept:'image/jpg,image/jpeg,image/png',
       multiple:false,
       showUploadList:false,
-      action:'http://www.freshfood.cn/cgi-bin/upload.pl',
-      data:{proj:'yh_ga'},
+      action:'http://101.132.136.124/cgi-bin/upload.pl',
+      data:{proj:'djds'},
       headers:{ 'X-Requested-With': null , withCredentials: null}
     },
     imgCropProps:{
@@ -64,12 +64,12 @@ class Index extends Component {
           <Upload {...uploadProps}
               onChange={this.handleChange}
           >
-            {fid? <img style={{maxHeight:'84px',maxWidth:'84px'}} src={`http://www.freshfood.cn/cgi-bin/download.pl?fid=${fid}&proj=yh_ga`} alt=""/>:uploadBtn}
+            {fid? <img style={{maxHeight:'84px',maxWidth:'84px'}} src={`http://101.132.136.124/cgi-bin/download.pl?fid=${fid}&proj=djds`} alt=""/>:uploadBtn}
           </Upload>
         </ImgCrop>:<Upload {...uploadProps}
             onChange={this.handleChange}
                    >
-          {fid? <img style={{maxHeight:'84px',maxWidth:'84px'}} src={`http://www.freshfood.cn/cgi-bin/download.pl?fid=${fid}&proj=yh_ga`} alt=""/>:uploadBtn}
+          {fid? <img style={{maxHeight:'84px',maxWidth:'84px'}} src={`http://101.132.136.124/cgi-bin/download.pl?fid=${fid}&proj=djds`} alt=""/>:uploadBtn}
         </Upload>}
 
         </>
