@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ImgCrop from 'antd-img-crop';
 import {Upload,Icon} from 'antd';
-
+// ws://47.52.252.181:51718/qsw
 class Index extends Component {
   static defaultProps={
     uploadProps:{
@@ -11,8 +11,8 @@ class Index extends Component {
         accept:'image/jpg,image/jpeg,image/png',
       multiple:false,
       showUploadList:false,
-      action:'http://101.132.136.124/cgi-bin/upload.pl',
-      data:{proj:'djds'},
+      action:'http://47.52.252.181/cgi-bin/upload.pl',
+      data:{proj:'qsw'},
       headers:{ 'X-Requested-With': null , withCredentials: null}
     },
     imgCropProps:{
@@ -44,6 +44,7 @@ class Index extends Component {
         loading:false
       });
       if(this.props.onChange){
+        console.log(info.file,'sssssssssssssssss')
         this.props.onChange(info.file.response.fid);
       }
 
@@ -64,12 +65,12 @@ class Index extends Component {
           <Upload {...uploadProps}
               onChange={this.handleChange}
           >
-            {fid? <img style={{maxHeight:'84px',maxWidth:'84px'}} src={`http://101.132.136.124/cgi-bin/download.pl?fid=${fid}&proj=djds`} alt=""/>:uploadBtn}
+            {fid? <img style={{maxHeight:'84px',maxWidth:'84px'}} src={`http://47.52.252.181/cgi-bin/download.pl?fid=${fid}&proj=qsw`} alt=""/>:uploadBtn}
           </Upload>
         </ImgCrop>:<Upload {...uploadProps}
             onChange={this.handleChange}
                    >
-          {fid? <img style={{maxHeight:'84px',maxWidth:'84px'}} src={`http://101.132.136.124/cgi-bin/download.pl?fid=${fid}&proj=djds`} alt=""/>:uploadBtn}
+          {fid? <img style={{maxHeight:'84px',maxWidth:'84px'}} src={`http://47.52.252.181/cgi-bin/download.pl?fid=${fid}&proj=qsw`} alt=""/>:uploadBtn}
         </Upload>}
 
         </>

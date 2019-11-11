@@ -1,16 +1,28 @@
-export default [
+export default [{
+    title: '赛事管理',
+    key: 'gameManage',
+    name: 'gameManage',
+    path: '/gameManage',
+    icon: 'trophy'
+  },
   {
-    title: '商品管理',
-    key: 'goodsManage',
-    name: 'goodsManage',
-    path: '/goodsManage',
-    icon: 'inbox'
+    title: 'Banner管理',
+    key: 'bannerManage',
+    name: 'bannerManage',
+    path: '/bannerManage',
+    icon: 'picture'
   },{
-    title: '订单管理',
-    key: 'orderManage',
-    name: 'orderManage',
-    path: '/orderManage',
-    icon: 'reconciliation'
+    title: '资讯管理',
+    key: 'informationManage',
+    name: 'informationManage',
+    path: '/informationManage',
+    icon: 'profile'
+  },{
+    title: '用户管理',
+    key: 'userManage',
+    name: 'userManage',
+    path: '/userManage',
+    icon: 'user'
   }
 
 ];

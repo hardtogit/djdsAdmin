@@ -4,21 +4,20 @@ import { withLoading } from '@/utils/dva';
 import Fetch from '@/utils/baseSever';
 
 export default model.extend({
-  namespace: 'homeBanner',
+  namespace: 'newsManage',
   state: {
-    banners: pageConfig,
+    news: pageConfig,
     loading: {
-      banners: false
+      news: false
     }
   },
   subscriptions: {
     setupSubscriber({ listen, dispatch }) {
-      listen('/home/banner', () => {
+      listen('/informationManage', () => {
           dispatch({
             type: 'fetchList', payload: {
               obj: 'admin',
-              act: 'bannerlist',
-              type:'home'
+              act: 'newslist'
             }
           });
       });
@@ -27,14 +26,13 @@ export default model.extend({
 
   effects: {
     * fetchList({ payload }, { update, call, select }) {
-      const pageModel = yield select(({ homeBanner }) => homeBanner.banners.pagination);
-      const response = yield call(withLoading(Fetch, 'banners'), {
+      const pageModel = yield select(({ newsManage }) => newsManage.news.pagination);
+      const response = yield call(withLoading(Fetch, 'news'), {
         page_num: pageModel.current - 1,
         page_size: pageModel.pageSize,
         ...payload
       });
-      console.log(response,'sssssssss');
-      yield update({ banners: { list: response.info, pagination: { ...pageModel, total: response.count } } });
+      yield update({ news: { list: response.info.records, pagination: { ...pageModel, total: response.count } } });
     }
   },
   reducers: {}

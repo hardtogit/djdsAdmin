@@ -1,5 +1,4 @@
 import model from '@/utils/baseModel';
-import {Modal} from 'antd';
 import {routerRedux} from 'dva/router';
 import {withLoading} from '@/utils/dva';
 import  Fetch from '@/utils/baseSever';
@@ -18,7 +17,7 @@ export default model.extend( {
       if (response.ustr != null && response.ustr !== '' && response.uerr !== 'ERR_CONNECTION_EXCEPTION'){
         // Modal.warning({title:response.ustr});
       }else{
-          yield put(routerRedux.push('/goodsManage'));
+          yield put(routerRedux.push('/gameManage'));
       }
     }
   },
