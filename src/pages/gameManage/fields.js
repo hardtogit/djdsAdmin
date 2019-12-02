@@ -1,4 +1,5 @@
 import {matchType} from '@/config/constants';
+import moment from 'moment';
 const searchFields=[{
   key:'class',
   name:'类别',
@@ -16,11 +17,17 @@ const tableFields = [
   },
   {
     key:'match',
-    name:'对阵'
+    name:'对阵',
+    render:(v,row)=>{
+      return `${row.match1}-${row.match2}`;
+    }
   },
   {
     key: 'time',
-    name: '比赛时间'
+    name: '比赛时间',
+    render:(v,row)=>{
+      return `${moment(row.starttime*1000).format('YYYY-MM-DD HH:mm:ss')}-${moment(row.endtime*1000).format('YYYY-MM-DD HH:mm:ss')}`;
+    }
   },
   {
     key: 'link',

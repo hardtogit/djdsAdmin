@@ -20,6 +20,9 @@ const tableFields = [
   {
     key: 'class',
     name: '分类'
+  },{
+    key: 'abbract',
+    name:'摘要'
   },
   {
     key: 'time',

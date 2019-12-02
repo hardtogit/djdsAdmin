@@ -13,7 +13,7 @@ export default model.extend({
   },
   subscriptions: {
     setupSubscriber({ listen, dispatch }) {
-      listen('/personManage', () => {
+      listen('/userManage', () => {
           dispatch({
             type: 'fetchList', payload: {
               obj: 'admin',
@@ -32,7 +32,7 @@ export default model.extend({
         page_size: pageModel.pageSize,
         ...payload
       });
-      yield update({ person: { list: response.info.records, pagination: { ...pageModel, total: response.count } } });
+      yield update({ person: { list: response.info.records, pagination: { ...pageModel, total: response.info.maxpage } } });
     }
   },
   reducers: {}

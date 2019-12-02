@@ -2,10 +2,6 @@ import React from 'react';
 const searchFields=[{
   key:'name',
   name:'标题'
-},{
-  key:'time',
-  name:'创建时间',
-  type:'dateRange'
 }];
 const tableFields = [
   {
@@ -20,8 +16,8 @@ const tableFields = [
     name: '标题'
   },
   {
-    key: 'time',
-    name: '创建时间'
+    key: 'money',
+    name: '金额'
   }
 ];
 export {

@@ -4,20 +4,20 @@ import { withLoading } from '@/utils/dva';
 import Fetch from '@/utils/baseSever';
 
 export default model.extend({
-  namespace: 'gamesManage',
+  namespace: 'giftManage',
   state: {
-    games: pageConfig,
+    gift: pageConfig,
     loading: {
-      games: false
+      gift: false
     }
   },
   subscriptions: {
     setupSubscriber({ listen, dispatch }) {
-      listen('/gameManage', () => {
+      listen('/giftManage', () => {
           dispatch({
             type: 'fetchList', payload: {
               obj: 'admin',
-              act: 'matchlist'
+              act: 'giftlist'
             }
           });
       });
@@ -26,13 +26,13 @@ export default model.extend({
 
   effects: {
     * fetchList({ payload }, { update, call, select }) {
-      const pageModel = yield select(({ gamesManage }) => gamesManage.games.pagination);
-      const response = yield call(withLoading(Fetch, 'games'), {
+      const pageModel = yield select(({ giftManage }) => giftManage.gift.pagination);
+      const response = yield call(withLoading(Fetch, 'gift'), {
         page_num: pageModel.current - 1,
         page_size: pageModel.pageSize,
         ...payload
       });
-      yield update({ games: { list: response.info.records, pagination: { ...pageModel, total: response.info.maxpage } } });
+      yield update({ gift: { list: response.info.records, pagination: { ...pageModel, total: response.info.maxpage } } });
     }
   },
   reducers: {}

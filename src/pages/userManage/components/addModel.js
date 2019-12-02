@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Modal, Form ,Input} from 'antd';
-import UploadImg from '@/components/UploadImg';
+import { Modal, Form ,Input,Select} from 'antd';
+import Fetch from '@/utils/baseSever';
 
 const formItemLayout = {
   labelCol: {
@@ -12,8 +12,29 @@ const formItemLayout = {
     sm: { span: 14 }
   }
 };
+
+const Option=Select.Option;
 @Form.create()
 class Index extends Component {
+  constructor(props) {
+    super(props);
+    this.state={
+      dataSource:[]
+    };
+  }
+  componentDidMount(){
+    Fetch({
+      obj: 'admin',
+      act: 'giftlist',
+      page_num: 0,
+      page_size: 1000
+    }).then((data)=>{
+      this.setState({
+        dataSource:data.info.records
+      });
+    });
+  }
+
   render() {
     const { onCancel, form: { getFieldDecorator },entity ,onOk} = this.props;
     const modalProps = {
@@ -31,39 +52,22 @@ class Index extends Component {
     return (
       <Modal {...modalProps} >
         <Form {...formItemLayout}>
-          <Form.Item label="商品图片">
-            {getFieldDecorator('picture', {
-              initialValue:entity.picture
+          <Form.Item label="礼物">
+            {getFieldDecorator('giftid', {
+              initialValue:entity.giftid
             })(
-              <UploadImg crop={false}/>
+              <Select>
+                {this.state.dataSource.map((item)=>(<Option key={item['_id']}
+                    value={item['_id']}
+                                                    >{item.name}</Option>))}
+              </Select>
             )}
           </Form.Item>
-          <Form.Item label="商家名称">
-            {getFieldDecorator('seller', {
-              initialValue:entity.seller
+          <Form.Item label="数量">
+            {getFieldDecorator('number', {
+              initialValue:entity.number
             })(
               <Input/>
-            )}
-          </Form.Item>
-          <Form.Item label="商品名称">
-            {getFieldDecorator('goodsname', {
-              initialValue:entity.goodsname
-            })(
-              <Input/>
-            )}
-          </Form.Item>
-          <Form.Item label="商品编号">
-            {getFieldDecorator('serialnum', {
-              initialValue:entity.serialnum
-            })(
-              <Input />
-            )}
-          </Form.Item>
-          <Form.Item label="商品价格">
-            {getFieldDecorator('price', {
-              initialValue:entity.price
-            })(
-              <Input />
             )}
           </Form.Item>
         </Form>

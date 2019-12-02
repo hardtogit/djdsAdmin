@@ -19,7 +19,7 @@ const tableFields = [
     name: '手机号'
   },
   {
-    key: 'price',
+    key: 'time',
     name: '注册时间'
   },
   {

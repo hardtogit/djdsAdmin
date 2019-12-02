@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {matchClass,matchType} from '@/config/constants';
+import Upload from '@/components/UploadImg';
 import moment from 'moment';
 import { Modal, Form ,Input,Select,DatePicker} from 'antd';
 
@@ -24,8 +25,9 @@ class Index extends Component {
       onCancel,
       onOk: () => {
         this.props.form.validateFields((error,values)=>{
-          values.time=values.time.unix();
           if(!error){
+            values.starttime=values.starttime.unix();
+            values.endtime=values.endtime.unix();
             onOk(values);
           }
         });
@@ -56,16 +58,45 @@ class Index extends Component {
               </Select>
             )}
           </Form.Item>
-          <Form.Item label="对局">
-            {getFieldDecorator('match', {
-              initialValue:entity.match
+          <Form.Item label="队伍一图标">
+            {getFieldDecorator('match1pic', {
+              initialValue:entity.match1pic
+            })(
+              <Upload/>
+            )}
+          </Form.Item>
+          <Form.Item label="队伍一">
+            {getFieldDecorator('match1', {
+              initialValue:entity.match1
             })(
               <Input/>
             )}
           </Form.Item>
-          <Form.Item label="比赛时间">
-            {getFieldDecorator('time', {
-              initialValue:entity.time&&moment(entity.time)
+          <Form.Item label="队伍二图标">
+            {getFieldDecorator('match2pic', {
+              initialValue:entity.match2pic
+            })(
+              <Upload/>
+            )}
+          </Form.Item>
+          <Form.Item label="队伍二">
+            {getFieldDecorator('match2', {
+              initialValue:entity.match2
+            })(
+              <Input/>
+            )}
+          </Form.Item>
+
+          <Form.Item label="比赛开始时间">
+            {getFieldDecorator('starttime', {
+              initialValue:entity.starttime&&moment(entity.starttime*1000)
+            })(
+              <DatePicker showTime style={{width:'100%'}}/>
+            )}
+          </Form.Item>
+          <Form.Item label="比赛结束时间">
+            {getFieldDecorator('endtime', {
+              initialValue:entity.endtime&&moment(entity.endtime*1000)
             })(
               <DatePicker showTime style={{width:'100%'}}/>
             )}

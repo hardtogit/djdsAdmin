@@ -37,15 +37,15 @@ function image() {
         }
         let params =new FormData();
           params.append('local_file',fileInput.files[0]);
-          params.append('proj','yh_ga');
+          params.append('proj','qsw');
 
-          fetch('http://www.freshfood.cn/cgi-bin/upload.pl', {
+          fetch('http://47.52.252.181/cgi-bin/upload.pl', {
             method: 'POST',
             body: params
           }).then(response => response.json())
             .then((data) => {
               console.log(data);
-              const path =`http://www.freshfood.cn/cgi-bin/download.pl?fid=${data.fid}&proj=yh_ga`;
+              const path =`http://47.52.252.181/cgi-bin/download.pl?fid=${data.fid}&proj=qsw`;
               // const path = data[0].url;
               // // getSelection 选择当前光标位置咯 然后在下一个range.index用它自带的embed媒介插入方式插入你已经存储在阿里上的图片了
               const range = $this.quill.getSelection(true);

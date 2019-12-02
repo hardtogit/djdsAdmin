@@ -35,7 +35,7 @@ export default model.extend({
         page_size: pageModel.pageSize,
         ...payload
       });
-      yield update({ partners: { list: response.info, pagination: { ...pageModel, total: response.count } } });
+      yield update({ partners: { list: response.info, pagination: { ...pageModel, total: response.info.maxpage } } });
     }
   },
   reducers: {}

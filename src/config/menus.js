@@ -23,6 +23,19 @@ export default [{
     name: 'userManage',
     path: '/userManage',
     icon: 'user'
+  },
+  {
+    title: '礼物管理',
+    key: 'giftManage',
+    name: 'giftManage',
+    path: '/giftManage',
+    icon: 'shop'
+  },
+  {
+    title: '积分榜管理',
+    key: 'scoreManage',
+    name: 'scoreManage',
+    path: '/scoreManage',
+    icon: 'profile'
   }
-
 ];

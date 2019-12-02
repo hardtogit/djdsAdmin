@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import { Modal, Form ,Input,Select} from 'antd';
-import {informationType} from '@/config/constants';
-import Editor from '@/components/Editor';
+import { Modal, Form ,Input,InputNumber} from 'antd';
+
 import UploadImg from '@/components/UploadImg';
 
-const Option=Select.Option;
+
 const formItemLayout = {
   labelCol: {
     xs: { span: 24 },
@@ -23,7 +22,7 @@ class Index extends Component {
     const modalProps = {
       title:type==='add'?'新增资讯':'修改资讯',
       visible: true,
-      width:900,
+      width:600,
       onCancel,
       onOk: () => {
         this.props.form.validateFields((error,values)=>{
@@ -36,7 +35,7 @@ class Index extends Component {
     return (
       <Modal {...modalProps} >
         <Form {...formItemLayout}>
-          <Form.Item label="主图">
+          <Form.Item label="礼物图片">
             {getFieldDecorator('picture', {
               initialValue:entity.picture
             })(
@@ -50,31 +49,11 @@ class Index extends Component {
               <Input/>
             )}
           </Form.Item>
-          <Form.Item label="摘要">
-            {getFieldDecorator('abbract', {
-              initialValue:entity.abbract
+          <Form.Item label="金额">
+            {getFieldDecorator('money', {
+              initialValue:entity.money||''
             })(
-              <Input/>
-            )}
-          </Form.Item>
-          <Form.Item label="分类">
-            {getFieldDecorator('class', {
-              initialValue:entity.class
-            })(
-              <Select >
-                {Object.keys(informationType).map((key,i)=>{
-                  return <Option key={i} value={key}>{
-                    informationType[key]
-                  }</Option>;
-                })}
-              </Select>
-            )}
-          </Form.Item>
-          <Form.Item label="详情">
-            {getFieldDecorator('detail', {
-              initialValue:entity.detail||''
-            })(
-              <Editor />
+              <InputNumber style={{width:'100%'}}/>
             )}
           </Form.Item>
         </Form>
