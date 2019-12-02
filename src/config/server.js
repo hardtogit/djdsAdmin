@@ -8,4 +8,4 @@ export default {
   prod:{
     uc:'http://www.c.com'
   }
-}
+};

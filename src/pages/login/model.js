@@ -17,7 +17,7 @@ export default model.extend( {
       if (response.ustr != null && response.ustr !== '' && response.uerr !== 'ERR_CONNECTION_EXCEPTION'){
         // Modal.warning({title:response.ustr});
       }else{
-          yield put(routerRedux.push('/gameManage'));
+          yield put(routerRedux.push('/userManage'));
       }
     }
   },

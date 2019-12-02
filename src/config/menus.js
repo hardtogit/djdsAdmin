@@ -4,5 +4,11 @@ export default [{
     name: 'userManage',
     path: '/userManage',
     icon: 'user'
-  }
+  },{
+  title: '登陆',
+  key: 'login',
+  name: 'login',
+  path: '/login',
+  hidden:true
+}
 ];
