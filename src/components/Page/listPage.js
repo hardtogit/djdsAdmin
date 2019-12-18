@@ -6,6 +6,7 @@ export default(props)=>{
       {props.searchBar&&<div className={styles.searchBar} style={props.searchStyle}>
         {props.searchBar}
       </div>}
+      <div>{props.bar}</div>
       <div className={styles.table} style={props.tableStyle}>
         {props.table}
       </div>

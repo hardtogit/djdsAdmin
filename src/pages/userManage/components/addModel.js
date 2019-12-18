@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Modal, Form ,Input,Select} from 'antd';
+import { Modal, Form ,InputNumber,Select} from 'antd';
 import Fetch from '@/utils/baseSever';
 
 const formItemLayout = {
@@ -38,7 +38,7 @@ class Index extends Component {
   render() {
     const { onCancel, form: { getFieldDecorator },entity ,onOk} = this.props;
     const modalProps = {
-      title: '新增商品',
+      title: '设置试用期',
       visible: true,
       onCancel,
       onOk: () => {
@@ -52,22 +52,11 @@ class Index extends Component {
     return (
       <Modal {...modalProps} >
         <Form {...formItemLayout}>
-          <Form.Item label="礼物">
-            {getFieldDecorator('giftid', {
-              initialValue:entity.giftid
+          <Form.Item label="试用天数">
+            {getFieldDecorator('usetime', {
+              initialValue:entity.usetime
             })(
-              <Select>
-                {this.state.dataSource.map((item)=>(<Option key={item['_id']}
-                    value={item['_id']}
-                                                    >{item.name}</Option>))}
-              </Select>
-            )}
-          </Form.Item>
-          <Form.Item label="数量">
-            {getFieldDecorator('number', {
-              initialValue:entity.number
-            })(
-              <Input/>
+              <InputNumber precision={0} style={{width:'100%'}}/>
             )}
           </Form.Item>
         </Form>

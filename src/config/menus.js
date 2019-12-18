@@ -5,6 +5,12 @@ export default [{
     path: '/userManage',
     icon: 'user'
   },{
+  title: '试用管理',
+  key: 'timeManage',
+  name: 'timeManage',
+  path: '/timeManage',
+  icon: 'setting'
+},{
   title: '登陆',
   key: 'login',
   name: 'login',

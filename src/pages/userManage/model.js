@@ -7,6 +7,7 @@ export default model.extend({
   namespace: 'personManage',
   state: {
     person: pageConfig,
+    listResponse:{},
     loading: {
       person: false
     }
@@ -28,11 +29,11 @@ export default model.extend({
     * fetchList({ payload }, { update, call, select }) {
       const pageModel = yield select(({ personManage }) => personManage.person.pagination);
       const response = yield call(withLoading(Fetch, 'person'), {
-        page_num: pageModel.current - 1,
+        page_no: pageModel.current - 1,
         page_size: pageModel.pageSize,
         ...payload
       });
-      yield update({ person: { list: response.info.records, pagination: { ...pageModel, total: response.info.maxpage } } });
+      yield update({ listResponse:response.info,person: { list: response.info.records, pagination: { ...pageModel, total: response.info.count } } });
     }
   },
   reducers: {}

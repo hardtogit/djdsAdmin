@@ -30,44 +30,14 @@ class Index extends Component {
       render: (text, record) => (
          <>
           <a
-              disabled={record.news==='false'}
+              disabled={record.buy==='是'}
               onClick={()=>{
-                  Fetch({
-                    obj:'admin',
-                    act:'setnews',
-                    id:record['_id'],
-                    news:'false'
-                  }).then(()=>{
-                    this.props.fetchList({ obj: 'admin',
-                      act: 'personlist'});
-                  });
-
-                }}
-          >禁止</a>
-           <Divider type="vertical" />
-           <a
-               disabled={record.news==='true'}
-               onClick={()=>{
-                Fetch({
-                  obj:'admin',
-                  act:'setnews',
-                  id:record['_id'],
-                  news:'true'
-                }).then(()=>{
-                  this.props.fetchList({ obj: 'admin',
-                    act: 'personlist'});
-                });
-
-           }}
-           >允许</a>
-           <Divider type="vertical" />
-          <a  onClick={()=>{
             this.setState({
               visible:true,
               entity:record
             });
           }}
-          >修改礼物</a>
+          >设置试用期</a>
       </>
       )
     }];
@@ -88,13 +58,14 @@ class Index extends Component {
   }
   render() {
     const {visible,entity}=this.state;
-    const {person,loading,fetchList,goPage}=this.props;
+    const {person,loading,fetchList,goPage,listResponse}=this.props;
     const searchProps={
       fields:searchFields,
       onSearch:this.handleSearch
     };
     const tableProps= {
       columns:this.getInitalColumns(tableFields),
+      rowKey:'id',
       bordered:true,
       dataSource: person.list,
       loading: loading.person,
@@ -111,17 +82,7 @@ class Index extends Component {
       entity,
       onOk:(params)=> {
         if (this.state.type === 'add') {
-          Fetch({ obj: 'admin', act: 'setgift', ...params,id: entity['_id'] }).then(
-            () => {
-              message.success('操作成功');
-              fetchList({...this.searchParams,obj:'admin',act:'personlist'});
-              this.setState({
-                visible: false
-              });
-            }
-          );
-        }else{
-          Fetch({ obj: 'admin', act: 'personmodify', ...params,id:this.state.entity['_id'] }).then(
+          Fetch({ obj: 'admin', act: 'setpersonusetime', ...params,id: entity.id }).then(
             () => {
               message.success('操作成功');
               fetchList({...this.searchParams,obj:'admin',act:'personlist'});
@@ -136,6 +97,14 @@ class Index extends Component {
     return (
       <ListPage
           searchBar={<SearchFormHook {...searchProps}/>}
+          bar={
+            <div style={{marginTop:'20px'}}>
+              <span style={{marginRight:'20px'}}>注册人数：{listResponse.register}人</span>
+              <span style={{marginRight:'20px'}}>缴费人数：{listResponse.buy}人</span>
+              <span style={{marginRight:'20px'}}>注册总数：{listResponse.allregister}人</span>
+              <span style={{marginRight:'20px'}}>缴费总数：{listResponse.allbuy}人</span>
+            </div>
+          }
           table={<Table {...tableProps}/>}
       >
         <a id="outFile" />
