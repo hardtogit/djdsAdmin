@@ -11,8 +11,8 @@ class Index extends Component {
         accept:'image/jpg,image/jpeg,image/png',
       multiple:false,
       showUploadList:false,
-      action:'http://47.52.252.181/cgi-bin/upload.pl',
-      data:{proj:'qsw'},
+      action:'http://47.103.2.159/cgi-bin/upload.pl',
+      data:{proj:'hxz'},
       headers:{ 'X-Requested-With': null , withCredentials: null}
     },
     imgCropProps:{
@@ -44,7 +44,7 @@ class Index extends Component {
         loading:false
       });
       if(this.props.onChange){
-        console.log(info.file,'sssssssssssssssss')
+        console.log(info.file,'sssssssssssssssss');
         this.props.onChange(info.file.response.fid);
       }
 
@@ -52,7 +52,7 @@ class Index extends Component {
   };
   render() {
     const {fid,loading}=this.state;
-    const {uploadProps,imgCropProps,crop=true}=this.props;
+    const {uploadProps,imgCropProps,crop=false}=this.props;
     const uploadBtn = (
       <div>
         <Icon type="plus" loading={loading}/>
@@ -65,12 +65,12 @@ class Index extends Component {
           <Upload {...uploadProps}
               onChange={this.handleChange}
           >
-            {fid? <img style={{maxHeight:'84px',maxWidth:'84px'}} src={`http://47.52.252.181/cgi-bin/download.pl?fid=${fid}&proj=qsw`} alt=""/>:uploadBtn}
+            {fid? <img style={{maxHeight:'84px',maxWidth:'84px'}} src={`http://47.103.2.159/cgi-bin/download.pl?fid=${fid}&proj=hxz`} alt=""/>:uploadBtn}
           </Upload>
         </ImgCrop>:<Upload {...uploadProps}
             onChange={this.handleChange}
                    >
-          {fid? <img style={{maxHeight:'84px',maxWidth:'84px'}} src={`http://47.52.252.181/cgi-bin/download.pl?fid=${fid}&proj=qsw`} alt=""/>:uploadBtn}
+          {fid? <img style={{maxHeight:'84px',maxWidth:'84px'}} src={`http://47.103.2.159/cgi-bin/download.pl?fid=${fid}&proj=hxz`} alt=""/>:uploadBtn}
         </Upload>}
 
         </>

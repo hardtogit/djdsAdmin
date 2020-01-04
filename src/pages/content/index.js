@@ -11,7 +11,7 @@ import AddModal from './components/addModel';
 
 
 const createColumns=TableUtils.createColumns;
-@model('personManage')
+@model('contentManage')
 class Index extends Component {
   constructor(props) {
     super(props);
