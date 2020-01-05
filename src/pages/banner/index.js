@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {model} from '@/utils/portal';
-import {Table,Divider,Modal} from 'antd';
+import {Table,Divider,Modal,Button} from 'antd';
 import ListPage from '@/components/Page/listPage';
 import {tableFields,searchFields} from './fields';
 import  {SearchFormHook} from '@/components/SearchFormPro/search';
@@ -81,10 +81,12 @@ class Index extends Component {
     };
 
     return (
+      <>
+        <Button type={'primary'} onClick={()=>this.props.push('/banner/create')}>新增</Button>
       <ListPage
-          searchBar={<SearchFormHook {...searchProps}/>}
           table={<Table {...tableProps}/>}
       />
+      </>
     );
   }
 }

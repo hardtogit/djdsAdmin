@@ -1,17 +1,16 @@
 import React, { Component } from 'react';
 import {model} from '@/utils/portal';
 import moment from 'moment';
-import {Table,Divider,message} from 'antd';
+import {Table,Divider,message,Button} from 'antd';
 import ListPage from '@/components/Page/listPage';
 import {tableFields,searchFields} from './fields';
-import  {SearchFormHook} from '@/components/SearchFormPro/search';
 import TableUtils from '@/utils/table';
 import Fetch from '@/utils/baseSever';
 import AddModal from './components/addModel';
 
 
 const createColumns=TableUtils.createColumns;
-@model('personManage')
+@model('newsManage')
 class Index extends Component {
   constructor(props) {
     super(props);
@@ -23,7 +22,54 @@ class Index extends Component {
     this.searchParams={};
   }
   getInitalColumns(fields) {
-    const extraFields = [];
+    const extraFields = [{
+      key: 'operator',
+      name: '操作',
+      width: 200,
+      render: (text, record) => (
+         <>
+          <a
+              disabled={record.news==='false'}
+              onClick={()=>{
+                  Fetch({
+                    obj:'admin',
+                    act:'setnews',
+                    id:record['_id'],
+                    news:'false'
+                  }).then(()=>{
+                    this.props.fetchList({ obj: 'admin',
+                      act: 'newslist'});
+                  });
+
+                }}
+          >禁止</a>
+           <Divider type="vertical" />
+           <a
+               disabled={record.news==='true'}
+               onClick={()=>{
+                Fetch({
+                  obj:'admin',
+                  act:'setnews',
+                  id:record['_id'],
+                  news:'true'
+                }).then(()=>{
+                  this.props.fetchList({ obj: 'admin',
+                    act: 'newslist'});
+                });
+
+           }}
+           >允许</a>
+           <Divider type="vertical" />
+          <a  onClick={()=>{
+            this.setState({
+              visible:true,
+              entity:record
+            });
+          }}
+          >修改礼物</a>
+      </>
+      )
+    }];
     return createColumns(fields).enhance(extraFields).values();
   }
 
@@ -36,11 +82,11 @@ class Index extends Component {
       delete values.time;
     }
     this.searchParams=values;
-    fetchList({...values,obj:'admin',act:'personlist'});
+    fetchList({...values,obj:'admin',act:'newslist'});
 
   }
   render() {
-    const {visible,entity}=this.state;
+    const {visible,entity,type}=this.state;
     const {person,loading,fetchList,goPage}=this.props;
     const searchProps={
       fields:searchFields,
@@ -54,7 +100,7 @@ class Index extends Component {
       pagination:person.pagination,
       onChange:({ current })=>{
         goPage({key:'person',current});
-        fetchList({...this.searchParams,obj:'admin',act:'personlist'});
+        fetchList({...this.searchParams,obj:'admin',act:'newslist'});
       }
     };
     const addModalProps={
@@ -62,22 +108,23 @@ class Index extends Component {
         visible:false
       }),
       entity,
+      type,
       onOk:(params)=> {
         if (this.state.type === 'add') {
-          Fetch({ obj: 'admin', act: 'setgift', ...params,id: entity['_id'] }).then(
+          Fetch({ obj: 'admin', act: 'newsadd', ...params }).then(
             () => {
               message.success('操作成功');
-              fetchList({...this.searchParams,obj:'admin',act:'personlist'});
+              fetchList({...this.searchParams,obj:'admin',act:'newslist'});
               this.setState({
                 visible: false
               });
             }
           );
         }else{
-          Fetch({ obj: 'admin', act: 'personmodify', ...params,id:this.state.entity['_id'] }).then(
+          Fetch({ obj: 'admin', act: 'newsmodify', ...params,id:this.state.entity['_id'] }).then(
             () => {
               message.success('操作成功');
-              fetchList({...this.searchParams,obj:'admin',act:'personlist'});
+              fetchList({...this.searchParams,obj:'admin',act:'newslist'});
               this.setState({
                 visible: false
               });
@@ -87,13 +134,19 @@ class Index extends Component {
       }
     };
     return (
+      <>
+        <Button type={'primary'} onClick={()=>{this.setState({
+          visible:true,
+          type:'add'
+        });}}
+        >新增</Button>
       <ListPage
-          searchBar={<SearchFormHook {...searchProps}/>}
           table={<Table {...tableProps}/>}
       >
         <a id="outFile" />
         {visible&&<AddModal {...addModalProps}/>}
       </ListPage>
+        </>
     );
   }
 }

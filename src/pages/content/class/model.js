@@ -32,7 +32,7 @@ export default model.extend({
         page_size: pageModel.pageSize,
         ...payload
       });
-      yield update({ person: { list: response.info.records, pagination: { ...pageModel, total: response.info.maxpage } } });
+      yield update({ person: { list: response.info.records, pagination: { ...pageModel, total: response.info.count } } });
     }
   },
   reducers: {}

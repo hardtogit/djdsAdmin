@@ -7,11 +7,10 @@ import {tableFields,searchFields} from './fields';
 import  {SearchFormHook} from '@/components/SearchFormPro/search';
 import TableUtils from '@/utils/table';
 import Fetch from '@/utils/baseSever';
-import AddModal from './components/addModel';
 
 
 const createColumns=TableUtils.createColumns;
-@model('personManage')
+@model('orderManage')
 class Index extends Component {
   constructor(props) {
     super(props);
@@ -36,7 +35,7 @@ class Index extends Component {
       delete values.time;
     }
     this.searchParams=values;
-    fetchList({...values,obj:'admin',act:'personlist'});
+    fetchList({...values,obj:'admin',act:'orderlist'});
 
   }
   render() {
@@ -54,7 +53,7 @@ class Index extends Component {
       pagination:person.pagination,
       onChange:({ current })=>{
         goPage({key:'person',current});
-        fetchList({...this.searchParams,obj:'admin',act:'personlist'});
+        fetchList({...this.searchParams,obj:'admin',act:'orderlist'});
       }
     };
     const addModalProps={
@@ -67,7 +66,7 @@ class Index extends Component {
           Fetch({ obj: 'admin', act: 'setgift', ...params,id: entity['_id'] }).then(
             () => {
               message.success('操作成功');
-              fetchList({...this.searchParams,obj:'admin',act:'personlist'});
+              fetchList({...this.searchParams,obj:'admin',act:'orderlist'});
               this.setState({
                 visible: false
               });
@@ -77,7 +76,7 @@ class Index extends Component {
           Fetch({ obj: 'admin', act: 'personmodify', ...params,id:this.state.entity['_id'] }).then(
             () => {
               message.success('操作成功');
-              fetchList({...this.searchParams,obj:'admin',act:'personlist'});
+              fetchList({...this.searchParams,obj:'admin',act:'orderlist'});
               this.setState({
                 visible: false
               });
@@ -90,10 +89,7 @@ class Index extends Component {
       <ListPage
           searchBar={<SearchFormHook {...searchProps}/>}
           table={<Table {...tableProps}/>}
-      >
-        <a id="outFile" />
-        {visible&&<AddModal {...addModalProps}/>}
-      </ListPage>
+      />
     );
   }
 }

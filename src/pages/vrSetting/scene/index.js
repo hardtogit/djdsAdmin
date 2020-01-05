@@ -1,17 +1,16 @@
 import React, { Component } from 'react';
 import {model} from '@/utils/portal';
 import moment from 'moment';
-import {Table,Divider,message} from 'antd';
+import {Table,Divider,message,Modal,Button} from 'antd';
 import ListPage from '@/components/Page/listPage';
-import {tableFields,searchFields} from './fields';
-import  {SearchFormHook} from '@/components/SearchFormPro/search';
+import {tableFields} from './fields';
 import TableUtils from '@/utils/table';
 import Fetch from '@/utils/baseSever';
 import AddModal from './components/addModel';
 
 
 const createColumns=TableUtils.createColumns;
-@model('personManage')
+@model('scene')
 class Index extends Component {
   constructor(props) {
     super(props);
@@ -23,7 +22,42 @@ class Index extends Component {
     this.searchParams={};
   }
   getInitalColumns(fields) {
-    const extraFields = [];
+    const extraFields = [{
+      key: 'operator',
+      name: '操作',
+      width: 200,
+      render: (text, record) => (
+         <>
+           <a
+               onClick={()=>{
+                 Modal.confirm({
+                   title:'系统提示',
+                   content:'确定删除该配置？',
+                   onOk:()=>{
+                     Fetch({
+                       obj:'admin',
+                       act:'vrmediadel',
+                       id:record['_id']
+                     }).then(()=>{
+                       message.success('删除成功');
+                       this.props.fetchList({obj:'admin',act:'vrscenariolist'});
+                     });
+                   }
+                 });
+           }}
+           >删除</a>
+           <Divider type="vertical" />
+          <a  onClick={()=>{
+            this.setState({
+              visible:true,
+              type:'edit',
+              entity:record
+            });
+          }}
+          >修改</a>
+      </>
+      )
+    }];
     return createColumns(fields).enhance(extraFields).values();
   }
 
@@ -36,16 +70,12 @@ class Index extends Component {
       delete values.time;
     }
     this.searchParams=values;
-    fetchList({...values,obj:'admin',act:'personlist'});
+    fetchList({...values,obj:'admin',act:'vrscenariolist'});
 
   }
   render() {
     const {visible,entity}=this.state;
     const {person,loading,fetchList,goPage}=this.props;
-    const searchProps={
-      fields:searchFields,
-      onSearch:this.handleSearch
-    };
     const tableProps= {
       columns:this.getInitalColumns(tableFields),
       bordered:true,
@@ -54,30 +84,31 @@ class Index extends Component {
       pagination:person.pagination,
       onChange:({ current })=>{
         goPage({key:'person',current});
-        fetchList({...this.searchParams,obj:'admin',act:'personlist'});
+        fetchList({...this.searchParams,obj:'admin',act:'vrscenariolist'});
       }
     };
     const addModalProps={
       onCancel:()=>this.setState({
         visible:false
       }),
+      type:this.state.type,
       entity,
       onOk:(params)=> {
         if (this.state.type === 'add') {
-          Fetch({ obj: 'admin', act: 'setgift', ...params,id: entity['_id'] }).then(
+          Fetch({ obj: 'admin', act: 'vrscenarioadd', ...params}).then(
             () => {
               message.success('操作成功');
-              fetchList({...this.searchParams,obj:'admin',act:'personlist'});
+              fetchList({...this.searchParams,obj:'admin',act:'vrscenariolist'});
               this.setState({
                 visible: false
               });
             }
           );
         }else{
-          Fetch({ obj: 'admin', act: 'personmodify', ...params,id:this.state.entity['_id'] }).then(
+          Fetch({ obj: 'admin', act: 'vrscenariomodify', ...params,id:this.state.entity['_id'] }).then(
             () => {
               message.success('操作成功');
-              fetchList({...this.searchParams,obj:'admin',act:'personlist'});
+              fetchList({...this.searchParams,obj:'admin',act:'vrscenariolist'});
               this.setState({
                 visible: false
               });
@@ -87,13 +118,21 @@ class Index extends Component {
       }
     };
     return (
+      <>
+        <Button type={'primary'} onClick={()=>{
+          this.setState({
+            visible:true,
+            type:'add'
+          });
+        }}
+        >新增</Button>
       <ListPage
-          searchBar={<SearchFormHook {...searchProps}/>}
           table={<Table {...tableProps}/>}
       >
         <a id="outFile" />
         {visible&&<AddModal {...addModalProps}/>}
       </ListPage>
+      </>
     );
   }
 }
