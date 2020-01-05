@@ -1,3 +1,4 @@
+import {staticPath} from '@/config/default';
 const searchFields=[{
   key:'display_name',
   name:'昵称'
@@ -11,25 +12,39 @@ const searchFields=[{
 }];
 const tableFields = [
   {
-    key: 'display_name',
-    name: '昵称'
+    key: 'picture',
+    name: '主图',
+    render:(v)=>{
+      return (<img height={40} src={staticPath+v} alt=""/>);
+    }
   },
   {
-    key: 'phone',
-    name: '手机号'
+    key: 'name',
+    name: '标题'
   },
   {
     key: 'time',
-    name: '注册时间'
+    name: '发布时间'
   },
   {
-    key: 'news',
-    name: '是否允许发布资讯',
+    key: 'lock',
+    name: '状态',
     render:(v)=>{
-      if(v==='true'){
-        return '允许';
+      if(v==='true'){return '锁定';
+      }else{
+        return '不锁定';
       }
-      return '不允许';
+    }
+
+  },
+  {
+    key: 'top',
+    name: '是否置顶',
+    render:(v)=>{
+      if(v===0){return '置顶';
+      }else{
+        return '不置顶';
+      }
     }
   }
 ];

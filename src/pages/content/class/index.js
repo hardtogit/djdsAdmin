@@ -1,17 +1,16 @@
 import React, { Component } from 'react';
 import {model} from '@/utils/portal';
 import moment from 'moment';
-import {Table,Divider,message} from 'antd';
+import {Table,Divider,message,Button,Modal} from 'antd';
 import ListPage from '@/components/Page/listPage';
 import {tableFields,searchFields} from './fields';
-import  {SearchFormHook} from '@/components/SearchFormPro/search';
 import TableUtils from '@/utils/table';
 import Fetch from '@/utils/baseSever';
 import AddModal from './components/addModel';
 
 
 const createColumns=TableUtils.createColumns;
-@model('contentManage')
+@model('classManage')
 class Index extends Component {
   constructor(props) {
     super(props);
@@ -30,44 +29,100 @@ class Index extends Component {
       render: (text, record) => (
          <>
           <a
-              disabled={record.news==='false'}
+              disabled={record.cource==='false'}
               onClick={()=>{
                   Fetch({
                     obj:'admin',
-                    act:'setnews',
+                    act:'courcetop',
                     id:record['_id'],
-                    news:'false'
+                    top:0
                   }).then(()=>{
                     this.props.fetchList({ obj: 'admin',
-                      act: 'personlist'});
+                      act: 'courcelist'});
                   });
 
                 }}
-          >禁止</a>
+          >置顶</a>
            <Divider type="vertical" />
            <a
-               disabled={record.news==='true'}
+               disabled={record.cource==='false'}
+               onClick={()=>{
+               Fetch({
+                 obj:'admin',
+                 act:'courcetop',
+                 id:record['_id'],
+                 top:1
+               }).then(()=>{
+                 this.props.fetchList({ obj: 'admin',
+                   act: 'courcelist'});
+               });
+
+             }}
+           >取消置顶</a>
+           <br />
+           <a
+               disabled={record.cource==='true'}
                onClick={()=>{
                 Fetch({
                   obj:'admin',
-                  act:'setnews',
+                  act:'courcelock',
                   id:record['_id'],
-                  news:'true'
+                  lock:'true'
                 }).then(()=>{
                   this.props.fetchList({ obj: 'admin',
-                    act: 'personlist'});
+                    act: 'courcelist'});
                 });
 
            }}
-           >允许</a>
+           >设为锁定</a>
            <Divider type="vertical" />
+           <a
+               disabled={record.cource==='true'}
+               onClick={()=>{
+               Fetch({
+                 obj:'admin',
+                 act:'courcelock',
+                 id:record['_id'],
+                 lock:'false'
+               }).then(()=>{
+                 this.props.fetchList({ obj: 'admin',
+                   act: 'courcelist'});
+               });
+
+             }}
+           >设为公开</a>
+           <br />
           <a  onClick={()=>{
             this.setState({
               visible:true,
-              entity:record
+              entity:record,
+              type:'edit'
             });
           }}
-          >修改礼物</a>
+          >修改</a>
+           <Divider type="vertical" />
+           <a  onClick={()=>{
+             Modal.confirm({
+               title:'系统提示',
+               content:'确认删除该资讯',
+               onOk:()=>{
+                 Fetch({
+                   act:'admin',
+                   obj:'courcedel',
+                   id:record['_id']
+                 }).then(()=>{
+                   message.success('删除成功');
+                   this.props.fetchList({
+                     ...this.searchParams,
+                     act:'admin',
+                     obj:'courcelist'
+                   });
+                 });
+
+               }
+             });
+           }}
+           >删除</a>
       </>
       )
     }];
@@ -83,11 +138,11 @@ class Index extends Component {
       delete values.time;
     }
     this.searchParams=values;
-    fetchList({...values,obj:'admin',act:'personlist'});
+    fetchList({...values,obj:'admin',act:'courcelist'});
 
   }
   render() {
-    const {visible,entity}=this.state;
+    const {visible,entity,type}=this.state;
     const {person,loading,fetchList,goPage}=this.props;
     const searchProps={
       fields:searchFields,
@@ -101,7 +156,7 @@ class Index extends Component {
       pagination:person.pagination,
       onChange:({ current })=>{
         goPage({key:'person',current});
-        fetchList({...this.searchParams,obj:'admin',act:'personlist'});
+        fetchList({...this.searchParams,obj:'admin',act:'courcelist'});
       }
     };
     const addModalProps={
@@ -109,22 +164,23 @@ class Index extends Component {
         visible:false
       }),
       entity,
+      type,
       onOk:(params)=> {
         if (this.state.type === 'add') {
-          Fetch({ obj: 'admin', act: 'setgift', ...params,id: entity['_id'] }).then(
+          Fetch({ obj: 'admin', act: 'courceadd', ...params }).then(
             () => {
               message.success('操作成功');
-              fetchList({...this.searchParams,obj:'admin',act:'personlist'});
+              fetchList({...this.searchParams,obj:'admin',act:'courcelist'});
               this.setState({
                 visible: false
               });
             }
           );
         }else{
-          Fetch({ obj: 'admin', act: 'personmodify', ...params,id:this.state.entity['_id'] }).then(
+          Fetch({ obj: 'admin', act: 'courcemodify', ...params,id:this.state.entity['_id'] }).then(
             () => {
               message.success('操作成功');
-              fetchList({...this.searchParams,obj:'admin',act:'personlist'});
+              fetchList({...this.searchParams,obj:'admin',act:'courcelist'});
               this.setState({
                 visible: false
               });
@@ -134,13 +190,19 @@ class Index extends Component {
       }
     };
     return (
+      <>
+        <Button type={'primary'} onClick={()=>{this.setState({
+          visible:true,
+          type:'add'
+        });}}
+        >新增</Button>
       <ListPage
-          searchBar={<SearchFormHook {...searchProps}/>}
           table={<Table {...tableProps}/>}
       >
         <a id="outFile" />
         {visible&&<AddModal {...addModalProps}/>}
       </ListPage>
+        </>
     );
   }
 }

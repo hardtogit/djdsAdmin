@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {model} from '@/utils/portal';
 import moment from 'moment';
-import {Table,Divider,message,Button} from 'antd';
+import {Table,Divider,message,Button,Modal} from 'antd';
 import ListPage from '@/components/Page/listPage';
 import {tableFields,searchFields} from './fields';
 import TableUtils from '@/utils/table';
@@ -33,40 +33,96 @@ class Index extends Component {
               onClick={()=>{
                   Fetch({
                     obj:'admin',
-                    act:'setnews',
+                    act:'newstop',
                     id:record['_id'],
-                    news:'false'
+                    top:0
                   }).then(()=>{
                     this.props.fetchList({ obj: 'admin',
                       act: 'newslist'});
                   });
 
                 }}
-          >禁止</a>
+          >置顶</a>
            <Divider type="vertical" />
+           <a
+               disabled={record.news==='false'}
+               onClick={()=>{
+               Fetch({
+                 obj:'admin',
+                 act:'newstop',
+                 id:record['_id'],
+                 top:1
+               }).then(()=>{
+                 this.props.fetchList({ obj: 'admin',
+                   act: 'newslist'});
+               });
+
+             }}
+           >取消置顶</a>
+           <br />
            <a
                disabled={record.news==='true'}
                onClick={()=>{
                 Fetch({
                   obj:'admin',
-                  act:'setnews',
+                  act:'newslock',
                   id:record['_id'],
-                  news:'true'
+                  lock:'true'
                 }).then(()=>{
                   this.props.fetchList({ obj: 'admin',
                     act: 'newslist'});
                 });
 
            }}
-           >允许</a>
+           >设为锁定</a>
            <Divider type="vertical" />
+           <a
+               disabled={record.news==='true'}
+               onClick={()=>{
+               Fetch({
+                 obj:'admin',
+                 act:'newslock',
+                 id:record['_id'],
+                 lock:'false'
+               }).then(()=>{
+                 this.props.fetchList({ obj: 'admin',
+                   act: 'newslist'});
+               });
+
+             }}
+           >设为公开</a>
+           <br />
           <a  onClick={()=>{
             this.setState({
               visible:true,
-              entity:record
+              entity:record,
+              type:'edit'
             });
           }}
-          >修改礼物</a>
+          >修改</a>
+           <Divider type="vertical" />
+           <a  onClick={()=>{
+             Modal.confirm({
+               title:'系统提示',
+               content:'确认删除该资讯',
+               onOk:()=>{
+                 Fetch({
+                   act:'admin',
+                   obj:'newsdel',
+                   id:record['_id']
+                 }).then(()=>{
+                   message.success('删除成功');
+                   this.props.fetchList({
+                     ...this.searchParams,
+                     act:'admin',
+                     obj:'newslist'
+                   });
+                 });
+
+               }
+             });
+           }}
+           >删除</a>
       </>
       )
     }];

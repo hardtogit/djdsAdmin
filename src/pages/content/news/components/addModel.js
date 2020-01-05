@@ -60,6 +60,16 @@ class Index extends Component {
               <Input/>
             )}
           </Form.Item>
+          <Form.Item label="是否锁定">
+            {getFieldDecorator('lock', {
+              initialValue:entity.lock
+            })(
+              <Select>
+                <Option value="true">锁定</Option>
+                <Option value="false">不锁定</Option>
+              </Select>
+            )}
+          </Form.Item>
           <Form.Item label="详细信息">
             {getFieldDecorator('detail', {
               initialValue:entity.detail||''

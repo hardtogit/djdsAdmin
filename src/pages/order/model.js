@@ -13,7 +13,7 @@ export default model.extend({
   },
   subscriptions: {
     setupSubscriber({ listen, dispatch }) {
-      listen('/orderManage', () => {
+      listen('/order', () => {
           dispatch({
             type: 'fetchList', payload: {
               obj: 'admin',

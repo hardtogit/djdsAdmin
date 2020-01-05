@@ -4,7 +4,7 @@ import { withLoading } from '@/utils/dva';
 import Fetch from '@/utils/baseSever';
 
 export default model.extend({
-  namespace: 'contentManage',
+  namespace: 'classManage',
   state: {
     person: pageConfig,
     loading: {
@@ -13,11 +13,11 @@ export default model.extend({
   },
   subscriptions: {
     setupSubscriber({ listen, dispatch }) {
-      listen('/userManage', () => {
+      listen('/content/class', () => {
           dispatch({
             type: 'fetchList', payload: {
               obj: 'admin',
-              act: 'personlist'
+              act: 'courcelist'
             }
           });
       });
@@ -26,7 +26,7 @@ export default model.extend({
 
   effects: {
     * fetchList({ payload }, { update, call, select }) {
-      const pageModel = yield select(({ personManage }) => personManage.person.pagination);
+      const pageModel = yield select(({ classManage }) => classManage.person.pagination);
       const response = yield call(withLoading(Fetch, 'person'), {
         page_num: pageModel.current - 1,
         page_size: pageModel.pageSize,

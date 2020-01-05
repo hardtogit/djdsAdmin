@@ -13,11 +13,11 @@ export default model.extend({
   },
   subscriptions: {
     setupSubscriber({ listen, dispatch }) {
-      listen('/userManage', () => {
+      listen('/content/news', () => {
           dispatch({
             type: 'fetchList', payload: {
               obj: 'admin',
-              act: 'personlist'
+              act: 'newslist'
             }
           });
       });

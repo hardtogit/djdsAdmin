@@ -21,15 +21,16 @@ class Index extends Component {
     super(props);
   }
   render() {
-    const { onCancel, form: { getFieldDecorator },entity ,onOk} = this.props;
+    const { onCancel, form: { getFieldDecorator },entity ,onOk,type} = this.props;
     const modalProps = {
-      title: '新增商品',
+      title: type==='add'?'新增课程':'修改课程',
       visible: true,
+      width:1000,
       onCancel,
       onOk: () => {
         this.props.form.validateFields((error,values)=>{
           if(!error){
-            onOk(values);
+            onOk({...values, subtype:'course'});
           }
         });
       }
@@ -59,9 +60,19 @@ class Index extends Component {
               <Input/>
             )}
           </Form.Item>
+          <Form.Item label="是否锁定">
+            {getFieldDecorator('lock', {
+              initialValue:entity.lock
+            })(
+              <Select>
+                <Option value="true">锁定</Option>
+                <Option value="false">不锁定</Option>
+              </Select>
+            )}
+          </Form.Item>
           <Form.Item label="详细信息">
             {getFieldDecorator('detail', {
-              initialValue:entity.detail
+              initialValue:entity.detail||''
             })(
               <Editor/>
             )}
