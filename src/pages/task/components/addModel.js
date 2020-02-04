@@ -78,7 +78,7 @@ class Index extends Component {
             })(
               <Radio.Group>
                 <Radio value="none">无跳转</Radio>
-                <Radio value="course">课程学习</Radio>
+                <Radio value="cource">课程学习</Radio>
                 <Radio value="vr">VR练习</Radio>
                 <Radio value="breath">呼吸练习</Radio>
               </Radio.Group>

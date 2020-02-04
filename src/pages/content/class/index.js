@@ -7,6 +7,7 @@ import {tableFields,searchFields} from './fields';
 import TableUtils from '@/utils/table';
 import Fetch from '@/utils/baseSever';
 import AddModal from './components/addModel';
+import ListModal from './components/listModel';
 
 
 const createColumns=TableUtils.createColumns;
@@ -16,6 +17,7 @@ class Index extends Component {
     super(props);
     this.state={
       visible:false,
+      visibleList:false,
       entity:{},
       type:'add'
     };
@@ -56,7 +58,6 @@ class Index extends Component {
                  this.props.fetchList({ obj: 'admin',
                    act: 'courcelist'});
                });
-
              }}
            >取消置顶</a>
            <br />
@@ -123,6 +124,20 @@ class Index extends Component {
              });
            }}
            >删除</a>
+           <Divider type="vertical"/>
+           <a onClick={()=>{
+             this.props.goPage({key:'subClass',current:1});
+             this.props.fetchSubList({
+               obj:'admin',act:'courcelist',
+               cource_id:record['_id']
+             })
+             this.setState({
+                  entity:record,
+                  visibleList:true
+             })
+           }}>
+             子课程管理
+           </a>
       </>
       )
     }];
@@ -142,7 +157,7 @@ class Index extends Component {
 
   }
   render() {
-    const {visible,entity,type}=this.state;
+    const {visible,visibleList,entity,type}=this.state;
     const {person,loading,fetchList,goPage}=this.props;
     const searchProps={
       fields:searchFields,
@@ -163,6 +178,7 @@ class Index extends Component {
       onCancel:()=>this.setState({
         visible:false
       }),
+      subtype:"cource",
       entity,
       type,
       onOk:(params)=> {
@@ -189,10 +205,20 @@ class Index extends Component {
         }
       }
     };
+    const listModalProps={
+      entity,
+      onCancel:()=>this.setState({
+        visibleList:false
+      }),
+      onOk:()=>this.setState({
+        visibleList:false
+      })
+    }
     return (
       <>
         <Button type={'primary'} onClick={()=>{this.setState({
           visible:true,
+          entity:{},
           type:'add'
         });}}
         >新增</Button>
@@ -201,6 +227,7 @@ class Index extends Component {
       >
         <a id="outFile" />
         {visible&&<AddModal {...addModalProps}/>}
+        {visibleList&&<ListModal {...listModalProps}/>}
       </ListPage>
         </>
     );

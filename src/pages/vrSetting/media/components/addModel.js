@@ -23,7 +23,7 @@ class Index extends Component {
   render() {
     const { onCancel, form: { getFieldDecorator },entity ,onOk,type} = this.props;
     const modalProps = {
-      title: type==='add'?'新增VR场景配置':'修改VR场景配置',
+      title: type==='add'?'新增VR多媒体配置':'修改VR多媒体配置',
       visible: true,
       width:680,
       onCancel,
@@ -42,8 +42,8 @@ class Index extends Component {
               label="主图"
           >
             {
-              getFieldDecorator('picture',{
-                initialValue:entity.picture,
+              getFieldDecorator('vrfid',{
+                initialValue:entity.vrfid,
                 rules:[
                   {required:true,message:'请选择主图'}
                 ]
@@ -61,21 +61,13 @@ class Index extends Component {
               <Input/>
             )}
           </Form.Item>
-          <Form.Item label="VR训练">
-            {getFieldDecorator('vrfid', {
-              initialValue:entity.vrfid
-            })(
-              <UploadImg/>
-            )}
-          </Form.Item>
-
-          <Form.Item label="状态">
-            {getFieldDecorator('lock', {
-              initialValue:entity.lock
+          <Form.Item label="类型">
+            {getFieldDecorator('subtype', {
+              initialValue:entity.subtype
             })(
               <Select>
-                <Option value="false">公开</Option>
-                <Option value="true">锁定</Option>
+                <Option value="video">视频</Option>
+                <Option value="picture">图片</Option>
               </Select>
             )}
           </Form.Item>

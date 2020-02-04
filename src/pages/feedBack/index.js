@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
 import {model} from '@/utils/portal';
 import moment from 'moment';
-import {Table,Divider,message,Modal,Button} from 'antd';
+import {Table,Divider,message} from 'antd';
 import ListPage from '@/components/Page/listPage';
-import {tableFields} from './fields';
+import {tableFields,searchFields} from './fields';
+import  {SearchFormHook} from '@/components/SearchFormPro/search';
 import TableUtils from '@/utils/table';
 import Fetch from '@/utils/baseSever';
-import AddModal from './components/addModel';
+import { Modal } from 'antd/lib/index';
 
 
 const createColumns=TableUtils.createColumns;
-@model('media')
+@model('feedBack')
 class Index extends Component {
   constructor(props) {
     super(props);
@@ -23,40 +24,23 @@ class Index extends Component {
   }
   getInitalColumns(fields) {
     const extraFields = [{
-      key: 'operator',
-      name: '操作',
-      width: 200,
-      render: (text, record) => (
-         <>
-           <a
-               onClick={()=>{
-                 Modal.confirm({
-                   title:'系统提示',
-                   content:'确定删除该配置？',
-                   onOk:()=>{
-                     Fetch({
-                       obj:'admin',
-                       act:'vrmediadel',
-                       id:record['_id']
-                     }).then(()=>{
-                       message.success('删除成功');
-                       this.props.fetchList({obj:'admin',act:'vrmedialist'});
-                     });
-                   }
-                 });
-           }}
-           >删除</a>
-           <Divider type="vertical" />
-          <a  onClick={()=>{
-            this.setState({
-              visible:true,
-              type:'edit',
-              entity:record
-            });
-          }}
-          >修改</a>
-      </>
-      )
+      name:'操作',
+      render:(v,row)=>{
+        return  <a onClick={() => {
+          Modal.confirm({
+            title: '系统提示',
+            content: '确定删除？',
+            onOk: () => Fetch({ obj: 'admin', act: 'suggestiondel', id: row['_id'] }).then(() => {
+              this.props.fetchList({
+                ...this.searchParams, obj: 'admin',
+                act: 'suggestionlist'
+              });
+            })
+          });
+        }}
+        >删除</a>
+
+      }
     }];
     return createColumns(fields).enhance(extraFields).values();
   }
@@ -70,12 +54,16 @@ class Index extends Component {
       delete values.time;
     }
     this.searchParams=values;
-    fetchList({...values,obj:'admin',act:'vrmedialist'});
+    fetchList({...values,obj:'admin',act:'suggestionlist'});
 
   }
   render() {
     const {visible,entity}=this.state;
     const {person,loading,fetchList,goPage}=this.props;
+    const searchProps={
+      fields:searchFields,
+      onSearch:this.handleSearch
+    };
     const tableProps= {
       columns:this.getInitalColumns(tableFields),
       bordered:true,
@@ -84,31 +72,30 @@ class Index extends Component {
       pagination:person.pagination,
       onChange:({ current })=>{
         goPage({key:'person',current});
-        fetchList({...this.searchParams,obj:'admin',act:'vrmedialist'});
+        fetchList({...this.searchParams,obj:'admin',act:'suggestionlist'});
       }
     };
     const addModalProps={
       onCancel:()=>this.setState({
         visible:false
       }),
-      type:this.state.type,
       entity,
       onOk:(params)=> {
         if (this.state.type === 'add') {
-          Fetch({ obj: 'admin', act: 'vrmediaadd', ...params}).then(
+          Fetch({ obj: 'admin', act: 'setgift', ...params,id: entity['_id'] }).then(
             () => {
               message.success('操作成功');
-              fetchList({...this.searchParams,obj:'admin',act:'vrmedialist'});
+              fetchList({...this.searchParams,obj:'admin',act:'suggestionlist'});
               this.setState({
                 visible: false
               });
             }
           );
         }else{
-          Fetch({ obj: 'admin', act: 'vrmediamodify', ...params,id:this.state.entity['_id'] }).then(
+          Fetch({ obj: 'admin', act: 'personmodify', ...params,id:this.state.entity['_id'] }).then(
             () => {
               message.success('操作成功');
-              fetchList({...this.searchParams,obj:'admin',act:'vrmedialist'});
+              fetchList({...this.searchParams,obj:'admin',act:'suggestionlist'});
               this.setState({
                 visible: false
               });
@@ -118,21 +105,10 @@ class Index extends Component {
       }
     };
     return (
-      <>
-        <Button type={'primary'} onClick={()=>{
-          this.setState({
-            visible:true,
-            type:'add'
-          });
-        }}
-        >新增</Button>
       <ListPage
+          searchBar={<SearchFormHook {...searchProps}/>}
           table={<Table {...tableProps}/>}
-      >
-        <a id="outFile" />
-        {visible&&<AddModal {...addModalProps}/>}
-      </ListPage>
-      </>
+      />
     );
   }
 }

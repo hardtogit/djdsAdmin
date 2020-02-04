@@ -67,6 +67,13 @@ export default [{
     icon: 'file-done'
   },
   {
+    title: '建议与反馈',
+    key: 'feedBack',
+    name: 'feedBack',
+    path: '/feedBack',
+    icon: 'file-done'
+  },
+  {
   title: '登陆',
   key: 'login',
   name: 'login',

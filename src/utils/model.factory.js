@@ -9,4 +9,4 @@ const getModel=(name)=>{
 };
 export default {
   getModel
-}
+};

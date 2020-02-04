@@ -4,22 +4,20 @@ import { withLoading } from '@/utils/dva';
 import Fetch from '@/utils/baseSever';
 
 export default model.extend({
-  namespace: 'classManage',
+  namespace: 'feedBack',
   state: {
     person: pageConfig,
-    subClass: pageConfig,
     loading: {
-      person: false,
-      subClass:false
+      person: false
     }
   },
   subscriptions: {
     setupSubscriber({ listen, dispatch }) {
-      listen('/content/class', () => {
+      listen('/feedBack', () => {
           dispatch({
             type: 'fetchList', payload: {
               obj: 'admin',
-              act: 'courcelist'
+              act: 'suggestionlist'
             }
           });
       });
@@ -28,23 +26,14 @@ export default model.extend({
 
   effects: {
     * fetchList({ payload }, { update, call, select }) {
-      const pageModel = yield select(({ classManage }) => classManage.person.pagination);
+      const pageModel = yield select(({ feedBack }) => feedBack.person.pagination);
       const response = yield call(withLoading(Fetch, 'person'), {
         page_num: pageModel.current - 1,
         page_size: pageModel.pageSize,
         ...payload
       });
       yield update({ person: { list: response.info.records, pagination: { ...pageModel, total: response.info.count } } });
-    },
-    * fetchSubList({ payload }, { update, call, select }) {
-      const pageModel = yield select(({ classManage }) => classManage.subClass.pagination);
-      const response = yield call(withLoading(Fetch, 'subClass'), {
-        page_num: pageModel.current - 1,
-        page_size: pageModel.pageSize,
-        ...payload
-      });
-      yield update({ subClass: { list: response.info.records, pagination: { ...pageModel, total: response.info.count } } });
-    },
+    }
   },
   reducers: {}
 });

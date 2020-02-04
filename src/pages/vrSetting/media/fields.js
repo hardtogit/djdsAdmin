@@ -25,9 +25,6 @@ const tableFields = [
     name: '标题'
   },
   {
-    key: 'lock',
-    name: '状态'
-  },{
     key:'location',
     name:'位置'
   }

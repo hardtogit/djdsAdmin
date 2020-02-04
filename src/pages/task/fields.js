@@ -1,3 +1,4 @@
+import {TASK_TYPE} from '@/config/constants'
 const searchFields=[{
   key:'display_name',
   name:'昵称'
@@ -24,7 +25,10 @@ const tableFields = [
   },
   {
     key: 'link',
-    name: '链接'
+    name: '链接',
+    render:(v)=>{
+      return TASK_TYPE[v]
+    }
   },{
     key:'location',
     name:'位置'

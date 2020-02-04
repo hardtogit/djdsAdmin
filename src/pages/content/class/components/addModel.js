@@ -21,7 +21,7 @@ class Index extends Component {
     super(props);
   }
   render() {
-    const { onCancel, form: { getFieldDecorator },entity ,onOk,type} = this.props;
+    const { onCancel, form: { getFieldDecorator },entity ,onOk,type,subtype} = this.props;
     const modalProps = {
       title: type==='add'?'新增课程':'修改课程',
       visible: true,
@@ -30,7 +30,7 @@ class Index extends Component {
       onOk: () => {
         this.props.form.validateFields((error,values)=>{
           if(!error){
-            onOk({...values, subtype:'course'});
+            onOk({...values, subtype});
           }
         });
       }
