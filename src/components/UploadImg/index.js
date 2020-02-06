@@ -12,7 +12,7 @@ class Index extends Component {
       multiple:false,
       showUploadList:false,
       action:'http://47.103.2.159/cgi-bin/upload.pl',
-      data:{proj:'hxz'},
+      data:{proj:'hxz_ga'},
       headers:{ 'X-Requested-With': null , withCredentials: null}
     },
     imgCropProps:{
@@ -65,12 +65,12 @@ class Index extends Component {
           <Upload {...uploadProps}
               onChange={this.handleChange}
           >
-            {fid? <img style={{maxHeight:'84px',maxWidth:'84px'}} src={`http://47.103.2.159/cgi-bin/download.pl?fid=${fid}&proj=hxz`} alt=""/>:uploadBtn}
+            {fid? <img style={{maxHeight:'84px',maxWidth:'84px'}} src={`http://47.103.2.159/cgi-bin/download.pl?fid=${fid}&proj=hxz_ga`} alt=""/>:uploadBtn}
           </Upload>
         </ImgCrop>:<Upload {...uploadProps}
             onChange={this.handleChange}
                    >
-          {fid? <img style={{maxHeight:'84px',maxWidth:'84px'}} src={`http://47.103.2.159/cgi-bin/download.pl?fid=${fid}&proj=hxz`} alt=""/>:uploadBtn}
+          {fid? <img style={{maxHeight:'84px',maxWidth:'84px'}} src={`http://47.103.2.159/cgi-bin/download.pl?fid=${fid}&proj=hxz_ga`} alt=""/>:uploadBtn}
         </Upload>}
 
         </>

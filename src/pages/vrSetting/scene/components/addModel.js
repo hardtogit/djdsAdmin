@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import UploadImg from '@/components/UploadImg';
+import Fetch from '@/utils/baseSever'
 import { Modal, Form ,Input,Select,Radio,InputNumber} from 'antd';
 
 
@@ -19,8 +20,23 @@ const Option=Select.Option;
 class Index extends Component {
   constructor(props) {
     super(props);
+    this.state={
+      mediaList:[]
+    }
+  }
+  componentDidMount(){
+    Fetch({
+      obj: 'admin',
+      act: 'vrmedialist',
+      page_size:10000
+    }).then((data)=>{
+      this.setState({
+        mediaList:data.info.records
+      })
+    })
   }
   render() {
+    const {mediaList}=this.state
     const { onCancel, form: { getFieldDecorator },entity ,onOk,type} = this.props;
     const modalProps = {
       title: type==='add'?'新增VR场景配置':'修改VR场景配置',
@@ -68,7 +84,6 @@ class Index extends Component {
               <UploadImg/>
             )}
           </Form.Item>
-
           <Form.Item label="状态">
             {getFieldDecorator('lock', {
               initialValue:entity.lock
@@ -76,6 +91,20 @@ class Index extends Component {
               <Select>
                 <Option value="false">公开</Option>
                 <Option value="true">锁定</Option>
+              </Select>
+            )}
+          </Form.Item>
+
+          <Form.Item label="多媒体">
+            {getFieldDecorator('vrmedia', {
+              initialValue:entity.vrmedia
+            })(
+              <Select mode='multiple'>
+                {mediaList.map((item)=>{
+                  return <Option key={item._id} value={item._id} >
+                    {item.name}
+                  </Option>
+                })}
               </Select>
             )}
           </Form.Item>

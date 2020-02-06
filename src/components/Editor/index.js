@@ -37,7 +37,7 @@ function image() {
         }
         let params =new FormData();
           params.append('local_file',fileInput.files[0]);
-          params.append('proj','hxz');
+          params.append('proj','hxz_ga');
 
           fetch('http://47.103.2.159/cgi-bin/upload.pl', {
             method: 'POST',
@@ -45,7 +45,7 @@ function image() {
           }).then(response => response.json())
             .then((data) => {
               console.log(data);
-              const path =`http://47.103.2.159/cgi-bin/download.pl?fid=${data.fid}&proj=hxz`;
+              const path =`http://47.103.2.159/cgi-bin/download.pl?fid=${data.fid}&proj=hxz_ga`;
               // const path = data[0].url;
               // // getSelection 选择当前光标位置咯 然后在下一个range.index用它自带的embed媒介插入方式插入你已经存储在阿里上的图片了
               const range = $this.quill.getSelection(true);

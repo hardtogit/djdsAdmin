@@ -14,7 +14,7 @@ const searchFields=[{
 }];
 const tableFields = [
   {
-    key: 'picture',
+    key: 'vrfid',
     name: '主图',
     render:(v)=>{
       return (<img height={40} src={staticPath+v} alt=""/>);

@@ -9,4 +9,4 @@ export const pageConfig = {
   },
   list: []
 };
-export const staticPath='http://47.103.2.159/cgi-bin/download.pl?proj=hxz&fid=';
+export const staticPath='http://47.103.2.159/cgi-bin/download.pl?proj=hxz_ga&fid=';

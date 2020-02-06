@@ -28,7 +28,7 @@ window.apiconn.response_received_handler = function(jo){
     }
   }
 };
-window.apiconn.wsUri = 'ws://47.103.2.159:51718/hxz';
+window.apiconn.wsUri = 'ws://47.103.2.159:80/hxz_ga';
 window.apiconn.connect();
 export const dva = {
   config: {
