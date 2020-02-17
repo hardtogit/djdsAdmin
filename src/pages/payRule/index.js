@@ -1,6 +1,7 @@
 import React from 'react';
 import moment from 'moment';
-import {Card,Form,Radio,Row,Col,Checkbox,InputNumber,DatePicker,Button,message} from 'antd';
+import {Card,Form,Radio,Row,Col,InputNumber,DatePicker,Button,message} from 'antd';
+import Checkbox from '@/components/Checkbox'
 import Fetch from '@/utils/baseSever';
 const FormItem =Form.Item;
  const RangePicker=DatePicker.RangePicker;
@@ -77,6 +78,7 @@ class Index extends React.Component{
             ...values
           };
         }
+        console.log('params',params)
         Fetch({
           obj:'admin',
           act:'payset',
@@ -110,15 +112,19 @@ class Index extends React.Component{
         }
         >
           <Row>
-            <Col span={2}>
-              <Checkbox value="dollar" onChange={(e)=>{
-                if(e.target.checked){
-                  this.setState({
-                    payType:e.target.value
-                  });
+            <Col span={3}>
+              <FormItem
+                {...formItemLayout}
+              >
+                {
+                  getFieldDecorator('dollar_flag', {
+                    initialValue: entity.dollar_flag
+                  })(
+                    <Checkbox>美元</Checkbox>
+                  )
                 }
-              }} checked={payType==='dollar'}
-              >美元</Checkbox>
+              </FormItem>
+
             </Col>
             <Col span={8}>
               <Col span={12}>
@@ -130,7 +136,7 @@ class Index extends React.Component{
                     getFieldDecorator('dollar', {
                       initialValue:entity.dollar
                     })(
-                      <InputNumber disabled={payType!=='dollar'} precision={2} style={{width:'100%'}}/>
+                      <InputNumber disabled={this.props.form.getFieldValue('dollar_flag')==='false'||this.props.form.getFieldValue('dollar_flag')===false} precision={2} style={{width:'100%'}}/>
                     )
                   }
                 </FormItem>
@@ -145,7 +151,7 @@ class Index extends React.Component{
                     getFieldDecorator('dollar_d', {
                       initialValue: entity.dollar_d
                     })(
-                      <InputNumber disabled={payType!=='dollar'} precision={2} style={{width:'100%'}}/>
+                      <InputNumber disabled={this.props.form.getFieldValue('dollar_flag')==='false'||this.props.form.getFieldValue('dollar_flag')===false} precision={2} style={{width:'100%'}}/>
                     )
                   }
                 </FormItem>
@@ -159,7 +165,7 @@ class Index extends React.Component{
                     getFieldDecorator('dollar_d', {
                       initialValue: entity.dollar_d
                     })(
-                      <InputNumber disabled={payType!=='dollar'} precision={2} style={{width:'100%'}}/>
+                      <InputNumber disabled={this.props.form.getFieldValue('dollar_flag')==='false'||this.props.form.getFieldValue('dollar_flag')===false} precision={2} style={{width:'100%'}}/>
                     )
                   }
                 </FormItem>
@@ -168,15 +174,18 @@ class Index extends React.Component{
             </Col>
           </Row>
           <Row>
-            <Col span={2}>
-              <Checkbox onChange={(e)=>{
-                if(e.target.checked){
-                  this.setState({
-                    payType:e.target.value
-                  });
+            <Col span={3}>
+              <FormItem
+                {...formItemLayout}
+              >
+                {
+                  getFieldDecorator('rmb_flag', {
+                    initialValue: entity.rmb_flag
+                  })(
+                    <Checkbox >人民币</Checkbox>
+                  )
                 }
-              }}  value="rmb" checked={payType==='rmb'}
-              >人民币</Checkbox>
+              </FormItem>
             </Col>
             <Col span={8}>
               <Col span={12}>
@@ -188,7 +197,7 @@ class Index extends React.Component{
                     getFieldDecorator('rmb', {
                       initialValue: entity.rmb
                     })(
-                      <InputNumber disabled={payType!=='rmb'} precision={2} style={{width:'100%'}}/>
+                      <InputNumber disabled={this.props.form.getFieldValue('rmb_flag')==='false'||this.props.form.getFieldValue('rmb_flag')===false} precision={2} style={{width:'100%'}}/>
                     )
                   }
                 </FormItem>
@@ -203,7 +212,7 @@ class Index extends React.Component{
                     getFieldDecorator('rmb_d', {
                       initialValue: entity.rmb_d
                     })(
-                      <InputNumber disabled={payType!=='rmb'} precision={2} style={{width:'100%'}}/>
+                      <InputNumber disabled={this.props.form.getFieldValue('rmb_flag')==='false'||this.props.form.getFieldValue('rmb_flag')===false} precision={2} style={{width:'100%'}}/>
                     )
                   }
                 </FormItem>
@@ -217,7 +226,7 @@ class Index extends React.Component{
                     getFieldDecorator('rmb_d', {
                       initialValue: entity.rmb_d
                     })(
-                      <InputNumber disabled={payType!=='rmb'} precision={2} style={{width:'100%'}}/>
+                      <InputNumber disabled={this.props.form.getFieldValue('rmb_flag')==='false'||this.props.form.getFieldValue('rmb_flag')===false} precision={2} style={{width:'100%'}}/>
                     )
                   }
                 </FormItem>
@@ -226,15 +235,18 @@ class Index extends React.Component{
             </Col>
           </Row>
           <Row>
-            <Col span={2}>
-              <Checkbox onChange={(e)=>{
-                if(e.target.checked){
-                  this.setState({
-                    payType:e.target.value
-                  });
+            <Col span={3}>
+              <FormItem
+                {...formItemLayout}
+              >
+                {
+                  getFieldDecorator('euro_flag', {
+                    initialValue: entity.euro_flag
+                  })(
+                    <Checkbox>欧元</Checkbox>
+                  )
                 }
-              }}  value="euro" checked={payType==='euro'}
-              >欧元</Checkbox>
+              </FormItem>
             </Col>
             <Col span={8}>
               <Col span={12}>
@@ -246,7 +258,7 @@ class Index extends React.Component{
                     getFieldDecorator('euro', {
                       initialValue: entity.euro
                     })(
-                      <InputNumber disabled={payType!=='euro'} precision={2} style={{width:'100%'}}/>
+                      <InputNumber disabled={this.props.form.getFieldValue('euro_flag')==='false'||this.props.form.getFieldValue('euro_flag')===false} precision={2} style={{width:'100%'}}/>
                     )
                   }
                 </FormItem>
@@ -261,7 +273,7 @@ class Index extends React.Component{
                     getFieldDecorator('euro_d', {
                       initialValue: entity.euro_d
                     })(
-                      <InputNumber disabled={payType!=='euro'} precision={2} style={{width:'100%'}}/>
+                      <InputNumber disabled={this.props.form.getFieldValue('euro_flag')==='false'||this.props.form.getFieldValue('euro_flag')===false} precision={2} style={{width:'100%'}}/>
                     )
                   }
                 </FormItem>
@@ -275,7 +287,7 @@ class Index extends React.Component{
                     getFieldDecorator('euro_d', {
                       initialValue: entity.euro_d
                     })(
-                      <InputNumber disabled={payType!=='euro'} precision={2} style={{width:'100%'}}/>
+                      <InputNumber disabled={this.props.form.getFieldValue('euro_flag')==='false'||this.props.form.getFieldValue('euro_flag')===false} precision={2} style={{width:'100%'}}/>
                     )
                   }
                 </FormItem>

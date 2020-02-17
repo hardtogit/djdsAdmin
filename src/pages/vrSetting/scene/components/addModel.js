@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import UploadImg from '@/components/UploadImg';
+import FileUpload from '@/components/FileUpload';
 import Fetch from '@/utils/baseSever'
 import { Modal, Form ,Input,Select,Radio,InputNumber} from 'antd';
 
@@ -81,7 +82,7 @@ class Index extends Component {
             {getFieldDecorator('vrfid', {
               initialValue:entity.vrfid
             })(
-              <UploadImg/>
+              <FileUpload/>
             )}
           </Form.Item>
           <Form.Item label="状态">

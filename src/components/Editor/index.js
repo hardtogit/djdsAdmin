@@ -1,5 +1,5 @@
 import React from 'react';
-import { message } from 'antd';
+import { message,} from 'antd';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 /*
@@ -59,6 +59,48 @@ function image() {
   }
   fileInput.click();
 }
+function video() {
+  const $this = this;
+  let fileInput = this.quill.container.querySelector('input.ql-video');
+  console.log(fileInput)
+  if (fileInput == null) {
+    fileInput = document.createElement('input');
+    fileInput.setAttribute('type', 'file');
+    // fileInput.setAttribute('accept', 'image/png, image/gif, image/jpeg, image/bmp, image/x-icon');
+    fileInput.classList.add('ql-video');
+    fileInput.style.display='none';
+    fileInput.addEventListener('change', () => {
+      if (fileInput.files != null && fileInput.files[0] != null) {
+        const param = { local_file: fileInput.files[0] };
+        console.log(fileInput.files[0]);
+        if (fileInput.files[0].size > 1024 * 1024 * 100) {
+          message.warn('视频大小不能超过100M');
+          return;
+        }
+        let params =new FormData();
+        params.append('local_file',fileInput.files[0]);
+        params.append('proj','hxz_ga');
+
+        fetch('http://47.103.2.159/cgi-bin/upload.pl', {
+          method: 'POST',
+          body: params
+        }).then(response => response.json())
+          .then((data) => {
+            const path =`http://47.103.2.159/cgi-bin/download.pl?fid=${data.fid}&proj=hxz_ga`;
+            console.log(path)
+            // const path = data[0].url;
+            // // getSelection 选择当前光标位置咯 然后在下一个range.index用它自带的embed媒介插入方式插入你已经存储在阿里上的图片了
+            const range = $this.quill.getSelection(true);
+            $this.quill.insertEmbed(range.index, 'video', path);
+            $this.quill.setSelection(range.index + 1);
+          });
+      };
+
+    });
+    this.container.appendChild(fileInput);
+  }
+  fileInput.click();
+}
 
 const CustomToolbar = () => (
   <div id="toolbar" style={{lineHeight:'normal'}}>
@@ -93,6 +135,7 @@ const CustomToolbar = () => (
       <option selected />
     </select>
     <button type="button" className="ql-image" />
+    <button type="button" className="ql-video" />
     <button type="button" className="ql-link" />
     <button type="button" className="ql-list" value="ordered" />
     <button type="button" className="ql-list" value="bullet" />
@@ -157,7 +200,8 @@ Editor.modules = {
     container: '#toolbar',
     handlers: {
       insertStar,
-      image
+      image,
+      video
     }
   },
   clipboard: {
@@ -184,6 +228,7 @@ Editor.formats = [
   'indent',
   'link',
   'image',
+  'video',
   'color'
 ];
 export default Editor;

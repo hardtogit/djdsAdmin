@@ -26,7 +26,13 @@ const tableFields = [
   },
   {
     key: 'lock',
-    name: '状态'
+    name: '状态',
+    render:(v)=>{
+      if(v==='false'){
+        return '公开'
+      }
+      return '锁定'
+    }
   },{
     key:'location',
     name:'位置'

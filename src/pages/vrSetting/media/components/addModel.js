@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import UploadImg from '@/components/UploadImg';
+import FileUpload from '@/components/FileUpload';
 import { Modal, Form ,Input,Select,Radio,InputNumber} from 'antd';
 
 
@@ -39,17 +39,17 @@ class Index extends Component {
       <Modal {...modalProps} >
         <Form {...formItemLayout}>
           <Form.Item
-              label="主图"
+              label="资源"
           >
             {
               getFieldDecorator('vrfid',{
                 initialValue:entity.vrfid,
                 rules:[
-                  {required:true,message:'请选择主图'}
+                  {required:true,message:'请选择资源'}
                 ]
 
               })(
-                <UploadImg />
+                <FileUpload />
               )
             }
           </Form.Item>

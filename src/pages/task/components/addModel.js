@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import UploadImg from '@/components/UploadImg'
 import { Modal, Form ,Input,Select,Radio,InputNumber} from 'antd';
 
 
@@ -37,6 +38,21 @@ class Index extends Component {
     return (
       <Modal {...modalProps} >
         <Form {...formItemLayout}>
+          <Form.Item
+            label="主图"
+          >
+            {
+              getFieldDecorator('picture',{
+                initialValue:entity.picture,
+                rules:[
+                  {required:true,message:'主图必须选择'}
+                ]
+
+              })(
+                <UploadImg />
+              )
+            }
+          </Form.Item>
           <Form.Item
               label="标题"
           >

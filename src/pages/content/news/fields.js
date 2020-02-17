@@ -23,6 +23,10 @@ const tableFields = [
     name: '标题'
   },
   {
+    key: 'applink',
+    name: 'app内链接'
+  },
+  {
     key: 'time',
     name: '发布时间'
   },
