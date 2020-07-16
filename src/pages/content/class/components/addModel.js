@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Modal, Form ,Input,Select} from 'antd';
+import { Modal, Form ,Input,Select,InputNumber} from 'antd';
 import Editor from '@/components/Editor';
 import UploadImg from '@/components/UploadImg';
 
@@ -70,6 +70,14 @@ class Index extends Component {
               </Select>
             )}
           </Form.Item>
+          <Form.Item label="位置">
+            {getFieldDecorator('sort', {
+              initialValue:entity.sort
+            })(
+              <InputNumber precision={0} min={1}/>
+            )}
+          </Form.Item>
+
           <Form.Item label="详细信息">
             {getFieldDecorator('detail', {
               initialValue:entity.detail||''

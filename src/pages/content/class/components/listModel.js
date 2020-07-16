@@ -47,8 +47,8 @@ class Index extends Component {
                 id:record['_id'],
                 top:0
               }).then(()=>{
-                this.props.fetchList({ obj: 'admin',
-                  act: 'courcelist'});
+                this.props.fetchSubList({cource_id:this.props.entity['_id'],obj:'admin',act:'courcelist'});
+
               });
 
             }}
@@ -63,8 +63,7 @@ class Index extends Component {
                 id:record['_id'],
                 top:1
               }).then(()=>{
-                this.props.fetchList({ obj: 'admin',
-                  act: 'courcelist'});
+                this.props.fetchSubList({cource_id:this.props.entity['_id'],obj:'admin',act:'courcelist'});
               });
             }}
           >取消置顶</a>
@@ -78,8 +77,7 @@ class Index extends Component {
                 id:record['_id'],
                 lock:'true'
               }).then(()=>{
-                this.props.fetchList({ obj: 'admin',
-                  act: 'courcelist'});
+                this.props.fetchSubList({cource_id:this.props.entity['_id'],obj:'admin',act:'courcelist'});
               });
 
             }}
@@ -94,8 +92,7 @@ class Index extends Component {
                 id:record['_id'],
                 lock:'false'
               }).then(()=>{
-                this.props.fetchList({ obj: 'admin',
-                  act: 'courcelist'});
+                this.props.fetchSubList({cource_id:this.props.entity['_id'],obj:'admin',act:'courcelist'});
               });
 
             }}
@@ -122,7 +119,7 @@ class Index extends Component {
                 }).then(()=>{
                   message.success('删除成功');
                   this.props.fetchList({
-                    ...this.searchParams,
+                      cource_id:this.props.entity['_id'],
                     act:'admin',
                     obj:'courcelist'
                   });
@@ -156,7 +153,7 @@ class Index extends Component {
       pagination:subClass.pagination,
       onChange:({ current })=>{
         goPage({key:'subClass',current});
-        fetchSubList({...this.searchParams,obj:'admin',act:'courcelist'});
+        fetchSubList({cource_id:entity['_id'],obj:'admin',act:'courcelist'});
       }
     };
     const addModalProps={
@@ -178,10 +175,10 @@ class Index extends Component {
             }
           );
         }else{
-          Fetch({ obj: 'admin', act: 'courcemodify', ...params,id:this.state.entity['_id'] }).then(
+          Fetch({ obj: 'admin', act: 'courcemodify', ...params,id:object['_id'] }).then(
             () => {
               message.success('操作成功');
-              fetchSubList({...this.searchParams,obj:'admin',act:'courcelist'});
+              fetchSubList({cource_id:entity['_id'],obj:'admin',act:'courcelist'});
               this.setState({
                 visible: false
               });

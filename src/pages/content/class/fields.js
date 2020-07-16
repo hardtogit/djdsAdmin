@@ -31,6 +31,10 @@ const tableFields = [
     name: '发布时间'
   },
   {
+    key: 'sort',
+    name: '排序'
+  },
+  {
     key: 'lock',
     name: '状态',
     render:(v)=>{

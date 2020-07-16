@@ -36,7 +36,7 @@ class Index extends Component {
                    onOk:()=>{
                      Fetch({
                        obj:'admin',
-                       act:'vrmediadel',
+                       act:'vrscenariodel',
                        id:record['_id']
                      }).then(()=>{
                        message.success('删除成功');

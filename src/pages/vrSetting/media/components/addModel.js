@@ -19,6 +19,10 @@ const Option=Select.Option;
 class Index extends Component {
   constructor(props) {
     super(props);
+    this.vrname=''
+  }
+  handleSelect=(info)=>{
+    this.vrname=info.name
   }
   render() {
     const { onCancel, form: { getFieldDecorator },entity ,onOk,type} = this.props;
@@ -29,6 +33,7 @@ class Index extends Component {
       onCancel,
       onOk: () => {
         this.props.form.validateFields((error,values)=>{
+          values.vrname=this.vrname||entity.vrname
           if(!error){
             onOk(values);
           }
@@ -49,7 +54,7 @@ class Index extends Component {
                 ]
 
               })(
-                <FileUpload />
+                <FileUpload onSelect={this.handleSelect}/>
               )
             }
           </Form.Item>

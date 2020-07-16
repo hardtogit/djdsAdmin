@@ -47,7 +47,10 @@ class Index extends React.Component{
           <Button  type="primary" htmlType="submit" className={styles.loginBtn}>
             登陆
           </Button>
+
+          <div onClick={()=>this.props.push('/password')} style={{color:'#fff',textAlign:'right',cursor:'pointer',zIndex:222}}>忘记密码？</div>
         </Form.Item>
+
       </Form>
       </div>
       </div>

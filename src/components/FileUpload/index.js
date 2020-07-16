@@ -7,7 +7,7 @@ class Index extends Component {
   static defaultProps={
     uploadProps:{
       name:'local_file',
-      accept:'image/jpg,image/jpeg,image/png',
+      // accept:'image/jpg,image/jpeg,image/png',
       multiple:false,
       showUploadList:false,
       action:'http://47.103.2.159/cgi-bin/upload.pl',
@@ -43,10 +43,9 @@ class Index extends Component {
         loading:false
       });
       if(this.props.onChange){
-        console.log(info.file,'sssssssssssssssss');
         this.props.onChange(info.file.response.fid);
+        this.props.onSelect(info.file)
       }
-
     }
   };
   render() {

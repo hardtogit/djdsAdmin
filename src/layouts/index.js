@@ -49,7 +49,7 @@ function Layout({
     }
   };
   console.log(props);
-  if (props.pathname === '/login') {
+  if (props.pathname === '/login'||props.pathname==='/password') {
     return <div className="loginContainer">{children}</div>;
   }
   return (

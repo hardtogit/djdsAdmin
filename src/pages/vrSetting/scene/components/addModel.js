@@ -24,6 +24,7 @@ class Index extends Component {
     this.state={
       mediaList:[]
     }
+    this.vrname=''
   }
   componentDidMount(){
     Fetch({
@@ -36,6 +37,9 @@ class Index extends Component {
       })
     })
   }
+  handleSelect=(info)=>{
+    this.vrname=info.name
+  }
   render() {
     const {mediaList}=this.state
     const { onCancel, form: { getFieldDecorator },entity ,onOk,type} = this.props;
@@ -46,6 +50,8 @@ class Index extends Component {
       onCancel,
       onOk: () => {
         this.props.form.validateFields((error,values)=>{
+          values.vrname=this.vrname||entity.vrname
+          console.log(values)
           if(!error){
             onOk(values);
           }
@@ -78,11 +84,23 @@ class Index extends Component {
               <Input/>
             )}
           </Form.Item>
+
+          <Form.Item label="关键词">
+            {getFieldDecorator('keyword', {
+              initialValue:entity.keyword
+            })(
+              <Select>
+                <Option value="RestaurantToilet">RestaurantToilet</Option>
+                <Option value="SchoolToilet">SchoolToilet</Option>
+                <Option value="OfficeToilet">OfficeToilet</Option>
+              </Select>
+            )}
+          </Form.Item>
           <Form.Item label="VR训练">
             {getFieldDecorator('vrfid', {
               initialValue:entity.vrfid
             })(
-              <FileUpload/>
+              <FileUpload onSelect={this.handleSelect}/>
             )}
           </Form.Item>
           <Form.Item label="状态">
