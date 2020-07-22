@@ -9,7 +9,7 @@ class Index extends Component {
       name:'local_file',
       // accept:'image/jpg,image/jpeg,image/png',
       multiple:false,
-      showUploadList:false,
+      showUploadList:true,
       action:'http://47.103.2.159/cgi-bin/upload.pl',
       data:{proj:'hxz_ga'},
       headers:{ 'X-Requested-With': null , withCredentials: null}
@@ -44,7 +44,7 @@ class Index extends Component {
       });
       if(this.props.onChange){
         this.props.onChange(info.file.response.fid);
-        this.props.onSelect(info.file)
+        this.props.onSelect(info.file);
       }
     }
   };
@@ -59,7 +59,7 @@ class Index extends Component {
     return (
       <>
         <Upload {...uploadProps}
-           onChange={this.handleChange}
+            onChange={this.handleChange}
         >
           {fid?<span ><Icon type="paper-clip" />{fid}</span>:uploadBtn}
         </Upload>
