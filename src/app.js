@@ -3,7 +3,7 @@ import {Modal} from 'antd';
 const history = createHistory();
 window.apiconn.response_received_handler = function(jo){
   if(!sessionStorage.getItem('credential_data')){
-    if(window.location.href.indexOf('login')===-1){
+    if(window.location.href.indexOf('login')===-1&&window.location.href.indexOf('changePassword')===-1){
       history.push('/login');
     }
   };

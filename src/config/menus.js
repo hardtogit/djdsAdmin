@@ -16,5 +16,11 @@ export default [{
   name: 'login',
   path: '/login',
   hidden:true
+},{
+  title: '设置密码',
+  key: 'changePassword',
+  name: 'changePassword',
+  path: '/changePassword',
+  hidden:true
 }
 ];
