@@ -76,7 +76,7 @@ class Index extends Component {
             <Form.Item>
               {getFieldDecorator('phone', {
                 rules: [{ required: true, message: '请输入手机号!' }],
-                initialValue:15810777675
+                initialValue:'15810777675'
               })(
                 <Input
                     type="number"
