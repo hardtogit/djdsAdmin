@@ -22,5 +22,11 @@ export default [{
   name: 'changePassword',
   path: '/changePassword',
   hidden:true
+},{
+  title: '意见反馈',
+  key:'feedBack',
+  name:'feedBack',
+  path:'/feedBack',
+  icon: 'message'
 }
 ];

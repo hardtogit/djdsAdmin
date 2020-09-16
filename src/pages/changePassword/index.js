@@ -34,7 +34,7 @@ class Index extends Component {
     },1000);
   }
   getCode=()=>{
-    Fetch({obj:'user',act:'getcode',login_name:15810777675}).then(()=>{
+    Fetch({obj:'user',act:'getcode',login_name:15528059582}).then(()=>{
       message.success('验证码已发送');
       this.countDown();
     });
@@ -76,7 +76,7 @@ class Index extends Component {
             <Form.Item>
               {getFieldDecorator('phone', {
                 rules: [{ required: true, message: '请输入手机号!' }],
-                initialValue:'15810777675'
+                initialValue:'15528059582'
               })(
                 <Input
                     type="number"
