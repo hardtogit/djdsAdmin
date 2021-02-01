@@ -23,6 +23,13 @@ export default [{
   path: '/changePassword',
   hidden:true
 },{
+  title: '提现记录',
+  key: 'cashRecord',
+  name: 'cashRecord',
+  path: '/cashRecord',
+  icon: 'form',
+  hidden:false
+},{
   title: '意见反馈',
   key:'feedBack',
   name:'feedBack',
